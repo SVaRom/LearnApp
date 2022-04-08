@@ -3,11 +3,11 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
-import HomeScreen from "./Screens/Home";
-import LoginScreen from "./Screens/Login";
-import ProfileScreen from "./Screens/Profile";
-import CalendarScreen from "./Screens/Calendar";
-import HistoryScreen from "./Screens/History";
+import HomeScreen from "./src/Screens/Home";
+import LoginScreen from "./src/Screens/Login";
+import ProfileScreen from "./src/Screens/Profile";
+import CalendarScreen from "./src/Screens/Calendar";
+import HistoryScreen from "./src/Screens/History";
 import { NavigationContainer } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
