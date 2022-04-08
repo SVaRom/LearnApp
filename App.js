@@ -1,20 +1,98 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
 
-export default function App() {
+import * as React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NativeBaseProvider } from "native-base";
+import HomeScreen from "./Screens/Home";
+import LoginScreen from "./Screens/Login";
+import ProfileScreen from "./Screens/Profile";
+import CalendarScreen from "./Screens/Calendar";
+import HistoryScreen from "./Screens/History";
+import { NavigationContainer } from "@react-navigation/native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
+const Tab = createMaterialBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+function MyTabs({ navigation, route }) {
+  const name = route.params;
+  const [color, setColor] = React.useState();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#f0edf6"
+      inactiveColor="#449e9d"
+    >
+      <Tab.Screen
+        name="Home"
+        component={() => <HomeScreen name={route.params.name} />}
+        options={{
+          tabBarColor: "#041C32",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Agenda"
+        component={() => <CalendarScreen name={route.params.name} />}
+        options={{
+          tabBarColor: "#04293A",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="calendar" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Historial"
+        component={() => <HistoryScreen name={route.params.name} />}
+        options={{
+          tabBarColor: "#064663",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="bookshelf" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={() => <ProfileScreen name={route.params.name} />}
+        options={{
+          tabBarColor: "#ECB365",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: true }}
+          initialRouteName="Login"
+        >
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: "LearnApp",
+            }}
+          />
+          <Stack.Screen
+            name="MyTabs"
+            component={MyTabs}
+            options={{
+              title: "LearnApp",
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
+  );
+};
+
+export default App;
