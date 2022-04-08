@@ -9,7 +9,6 @@ import {
   Button,
   HStack,
   Center,
-  NativeBaseProvider,
 } from "native-base";
 const LoginScreen = ({ navigation }) => {
   const [text, setText] = React.useState("");
