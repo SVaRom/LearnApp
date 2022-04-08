@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, Button, View, Text } from "react-native";
+import { View, Text } from "react-native";
 const Profile = ({ navigation, name }) => {
   const [text, setText] = React.useState("");
   return (
