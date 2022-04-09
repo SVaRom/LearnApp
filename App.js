@@ -31,11 +31,7 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {route.params.data.type === "Student"
-          ? (props) => <HomeScreen {...props} data={route.params.data} />
-          : route.params.data.type === "Teacher"
-          ? (props) => <HomeTeacherScreen {...props} data={route.params.data} />
-          : window.alert("Datos erroneos", window.location.reload())}
+        {(props) => <HomeScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
         name="Agenda"

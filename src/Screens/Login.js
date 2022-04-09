@@ -66,6 +66,7 @@ const LoginScreen = ({ navigation }) => {
             <FormControl.Label>Número de control</FormControl.Label>
             <Input
               onChangeText={(txt) => handleChange("number", txt)}
+              onSelectionChange={checkType}
               variant="underlined"
             />
           </FormControl>
@@ -77,7 +78,7 @@ const LoginScreen = ({ navigation }) => {
               variant="underlined"
             />
           </FormControl>
-          <Button mt="2" colorScheme="gray" onPress={login} onFocus={checkType}>
+          <Button mt="2" colorScheme="gray" onPress={login}>
             Ingresar
           </Button>
           <HStack mt="6" justifyContent="center">
