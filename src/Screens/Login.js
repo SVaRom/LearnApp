@@ -30,7 +30,11 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     console.log("hi " + data.number + " you are " + data.type);
-    navigation.navigate("MyTabs", { data: data });
+    data.type === "Student"
+      ? navigation.navigate("MyTabs", { data: data })
+      : data.type === "Teacher"
+      ? navigation.navigate("MyTabsTeacher", { data: data })
+      : navigation.navigate("Login", window.alert("Datos erroneos"));
   };
   return (
     <Center w="100%">

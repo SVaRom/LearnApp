@@ -73,6 +73,27 @@ function MyTabs({ navigation, route }) {
     </Tab.Navigator>
   );
 }
+function MyTabsTeacher({ navigation, route }) {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#f0edf6"
+      inactiveColor="#449e9d"
+    >
+      <Tab.Screen
+        name="Home"
+        options={{
+          tabBarColor: "#041C32",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      >
+        {(props) => <HomeTeacherScreen {...props} data={route.params.data} />}
+      </Tab.Screen>
+    </Tab.Navigator>
+  );
+}
 
 const App = () => {
   return (
@@ -92,6 +113,13 @@ const App = () => {
           <Stack.Screen
             name="MyTabs"
             component={MyTabs}
+            options={{
+              title: "LearnApp",
+            }}
+          />
+          <Stack.Screen
+            name="MyTabsTeacher"
+            component={MyTabsTeacher}
             options={{
               title: "LearnApp",
             }}
