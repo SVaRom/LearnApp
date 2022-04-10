@@ -9,6 +9,8 @@ import ProfileScreen from "./src/Screens/Student/Profile";
 import CalendarScreen from "./src/Screens/Student/Calendar";
 import HistoryScreen from "./src/Screens/Student/History";
 import HomeTeacherScreen from "./src/Screens/Teacher/Home";
+import CalendarTeacherScreen from "./src/Screens/Teacher/Calendar";
+import ScannerScreen from "./src/Screens/Teacher/Scanner";
 import { NavigationContainer } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -86,6 +88,38 @@ function MyTabsTeacher({ navigation, route }) {
         }}
       >
         {(props) => <HomeTeacherScreen {...props} data={route.params.data} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Calendar"
+        options={{
+          tabBarColor: "#041C32",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="calendar-month"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      >
+        {(props) => (
+          <CalendarTeacherScreen {...props} data={route.params.data} />
+        )}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Scanner"
+        options={{
+          tabBarColor: "#041C32",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="qrcode-scan"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      >
+        {(props) => <ScannerScreen {...props} data={route.params.data} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
