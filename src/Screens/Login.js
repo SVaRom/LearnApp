@@ -11,10 +11,30 @@ import {
   Center,
 } from "native-base";
 const LoginScreen = ({ navigation }) => {
-  const [text, setText] = React.useState("");
+  const [data, setData] = React.useState({
+    number: "",
+    password: "",
+    type: "",
+  });
+  const handleChange = (name, value) => {
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+  const checkType = () => {
+    if (data.number.length === 4) handleChange("type", "Teacher");
+    else if (data.number.length === 8) handleChange("type", "Student");
+    else handleChange("type", "");
+  };
+
   const login = () => {
-    console.log("hi");
-    navigation.navigate("MyTabs", { name: text });
+    console.log("hi " + data.number + " you are " + data.type);
+    data.type === "Student"
+      ? navigation.navigate("MyTabs", { data: data })
+      : data.type === "Teacher"
+      ? navigation.navigate("MyTabsTeacher", { data: data })
+      : navigation.navigate("Login", window.alert("Datos erroneos"));
   };
   return (
     <Center w="100%">
@@ -44,18 +64,28 @@ const LoginScreen = ({ navigation }) => {
         <VStack space={3} mt="5">
           <FormControl>
             <FormControl.Label>Número de control</FormControl.Label>
-            <Input onChangeText={setText} variant="underlined" />
+            <Input
+              onChangeText={(txt) => handleChange("number", txt)}
+              onSelectionChange={checkType}
+              variant="underlined"
+            />
           </FormControl>
           <FormControl>
             <FormControl.Label>Contraseña</FormControl.Label>
-            <Input type="password" variant="underlined" />
+            <Input
+              onChangeText={(txt) => handleChange("password", txt)}
+              type="password"
+              variant="underlined"
+            />
           </FormControl>
           <Button mt="2" colorScheme="gray" onPress={login}>
             Ingresar
           </Button>
           <HStack mt="6" justifyContent="center">
             <Link
-              onPress={console.log("Supon un modificar")}
+              onPress={() => {
+                console.log("Supon un modificar");
+              }}
               _text={{
                 fontSize: "xs",
                 fontWeight: "500",
@@ -69,7 +99,9 @@ const LoginScreen = ({ navigation }) => {
           </HStack>
           <HStack mt="6" justifyContent="center">
             <Link
-              onPress={console.log("Supon un registro")}
+              onPress={() => {
+                console.log("Supon un registro");
+              }}
               _text={{
                 fontSize: "xs",
                 fontWeight: "500",

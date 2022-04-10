@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, Button, View, Text } from "react-native";
-const Home = ({ navigation, name }) => {
+const Home = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
     <View
@@ -12,7 +12,9 @@ const Home = ({ navigation, name }) => {
         margin: 10,
       }}
     >
-      <Text>Aquí es home {name}</Text>
+      <Text>
+        Aquí es home {data.number} y tu rol es {data.type}
+      </Text>
     </View>
   );
 };
