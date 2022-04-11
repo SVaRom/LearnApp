@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, Button, View, Text } from "react-native";
-const History = ({ navigation, name }) => {
+const History = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
     <View
@@ -12,7 +12,7 @@ const History = ({ navigation, name }) => {
         margin: 10,
       }}
     >
-      <Text>Aquí es historial {name}</Text>
+      <Text>Aquí es historial {data.number}</Text>
     </View>
   );
 };

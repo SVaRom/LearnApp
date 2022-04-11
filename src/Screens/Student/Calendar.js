@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, Button, View, Text } from "react-native";
-const Calendar = ({ navigation, name }) => {
+const Calendar = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
     <View
@@ -12,7 +12,7 @@ const Calendar = ({ navigation, name }) => {
         margin: 10,
       }}
     >
-      <Text>Aquí es calendario {name}</Text>
+      <Text>Aquí es calendario {data.number}</Text>
     </View>
   );
 };
