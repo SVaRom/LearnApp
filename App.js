@@ -44,7 +44,7 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {(props) => <CalendarScreen {...props} name={route.params.name} />}
+        {(props) => <CalendarScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
         name="Historial"
@@ -55,7 +55,7 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {(props) => <HistoryScreen {...props} name={route.params.name} />}
+        {(props) => <HistoryScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
         name="Profile"
@@ -66,7 +66,7 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {(props) => <ProfileScreen {...props} name={route.params.name} />}
+        {(props) => <ProfileScreen {...props} data={route.params.data} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
@@ -136,9 +136,7 @@ const App = () => {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{
-              title: "LearnApp",
-            }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="MyTabs"

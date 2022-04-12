@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-const Profile = ({ navigation, name }) => {
+const Profile = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
     <View
@@ -12,7 +12,7 @@ const Profile = ({ navigation, name }) => {
         margin: 10,
       }}
     >
-      <Text>Aquí es perfil {name}</Text>
+      <Text>Aquí es perfil {data.number}</Text>
     </View>
   );
 };
