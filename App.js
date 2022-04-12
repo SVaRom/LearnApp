@@ -145,6 +145,15 @@ const App = () => {
             component={MyTabs}
             options={{
               title: "LearnApp",
+              headerLeft: () => null,
+              headerRight: () => (
+                <MaterialCommunityIcons
+                  name="dots-vertical"
+                  onPress={() => alert("This is a button!")}
+                  title="Log Out"
+                  color="#5c5c5c"
+                />
+              ),
             }}
           />
           <Stack.Screen
@@ -152,6 +161,16 @@ const App = () => {
             component={MyTabsTeacher}
             options={{
               title: "LearnApp",
+              headerLeft: () => null,
+              headerRight: () => (
+                <MaterialCommunityIcons
+                  name="dots-vertical"
+                  onPress={() => alert("This is a button!")}
+                  title="Log Out"
+                  color="#5c5c5c"
+                  size={26}
+                />
+              ),
             }}
           />
         </Stack.Navigator>
