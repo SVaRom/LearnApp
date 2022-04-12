@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider } from "native-base";
+import { Menu, Box, Pressable, NativeBaseProvider } from "native-base";
 import HomeScreen from "./src/Screens/Student/Home";
 import LoginScreen from "./src/Screens/Login";
 import ProfileScreen from "./src/Screens/Student/Profile";
@@ -12,7 +12,7 @@ import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendar";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
@@ -126,6 +126,33 @@ function MyTabsTeacher({ navigation, route }) {
   );
 }
 
+const LogoutMenu = () => {
+  const navigation = useNavigation();
+  return (
+    <Box>
+      <Menu
+        defaultIsOpen={false}
+        w="190"
+        trigger={(triggerProps) => {
+          return (
+            <Pressable {...triggerProps}>
+              <MaterialCommunityIcons
+                name="dots-vertical"
+                color="#5c5c5c"
+                size={26}
+              />
+            </Pressable>
+          );
+        }}
+      >
+        <Menu.Item onPress={() => navigation.navigate("Login")}>
+          Log Out
+        </Menu.Item>
+      </Menu>
+    </Box>
+  );
+};
+
 const App = () => {
   return (
     <NativeBaseProvider>
@@ -149,36 +176,22 @@ const App = () => {
           <Stack.Screen
             name="MyTabs"
             component={MyTabs}
-            options={({ navigation }) => ({
+            options={{
               title: "LearnApp",
+              headerBackVisible: false,
               headerLeft: () => null,
-              headerRight: () => (
-                <MaterialCommunityIcons
-                  name="dots-vertical"
-                  onPress={() => navigation.navigate("Login")}
-                  title="Log Out"
-                  color="#5c5c5c"
-                  size={26}
-                />
-              ),
-            })}
+              headerRight: () => <LogoutMenu />,
+            }}
           />
           <Stack.Screen
             name="MyTabsTeacher"
             component={MyTabsTeacher}
-            options={({ navigation }) => ({
+            options={{
               title: "LearnApp",
+              headerBackVisible: false,
               headerLeft: () => null,
-              headerRight: () => (
-                <MaterialCommunityIcons
-                  name="dots-vertical"
-                  onPress={() => navigation.navigate("Login")}
-                  title="Log Out"
-                  color="#5c5c5c"
-                  size={26}
-                />
-              ),
-            })}
+              headerRight: () => <LogoutMenu />,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
