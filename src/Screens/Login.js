@@ -61,13 +61,13 @@ const LoginScreen = ({ navigation }) => {
             },
             _ios: {
               _icon: {
-                size: "2xl",
+                size: "md",
               },
             },
           }}
           _ios={{
             _icon: {
-              size: "2xl",
+              size: "md",
             },
           }}
         />
