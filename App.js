@@ -102,9 +102,7 @@ const App = () => {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{
-              title: "LearnApp",
-            }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="MyTabs"
