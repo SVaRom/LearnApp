@@ -149,35 +149,36 @@ const App = () => {
           <Stack.Screen
             name="MyTabs"
             component={MyTabs}
-            options={{
+            options={({ navigation }) => ({
               title: "LearnApp",
               headerLeft: () => null,
               headerRight: () => (
                 <MaterialCommunityIcons
                   name="dots-vertical"
-                  onPress={() => alert("This is a button!")}
-                  title="Log Out"
-                  color="#5c5c5c"
-                />
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="MyTabsTeacher"
-            component={MyTabsTeacher}
-            options={{
-              title: "LearnApp",
-              headerLeft: () => null,
-              headerRight: () => (
-                <MaterialCommunityIcons
-                  name="dots-vertical"
-                  onPress={() => alert("This is a button!")}
+                  onPress={() => navigation.navigate("Login")}
                   title="Log Out"
                   color="#5c5c5c"
                   size={26}
                 />
               ),
-            }}
+            })}
+          />
+          <Stack.Screen
+            name="MyTabsTeacher"
+            component={MyTabsTeacher}
+            options={({ navigation }) => ({
+              title: "LearnApp",
+              headerLeft: () => null,
+              headerRight: () => (
+                <MaterialCommunityIcons
+                  name="dots-vertical"
+                  onPress={() => navigation.navigate("Login")}
+                  title="Log Out"
+                  color="#5c5c5c"
+                  size={26}
+                />
+              ),
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>
