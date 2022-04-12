@@ -70,6 +70,9 @@ const LoginScreen = ({ navigation }) => {
               size: "md",
             },
           }}
+          onPress={() => {
+            console.log("Change language");
+          }}
         />
       </Box>
 
@@ -149,7 +152,7 @@ const LoginScreen = ({ navigation }) => {
             <HStack mt="6" justifyContent="center">
               <Link
                 onPress={() => {
-                  console.log("Supon un registro");
+                  navigation.navigate("Register");
                 }}
                 _text={{
                   fontSize: "xs",

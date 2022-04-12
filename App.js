@@ -9,6 +9,7 @@ import ProfileScreen from "./src/Screens/Student/Profile";
 import CalendarScreen from "./src/Screens/Student/Calendar";
 import HistoryScreen from "./src/Screens/Student/History";
 import HomeTeacherScreen from "./src/Screens/Teacher/Home";
+import RegisterScreen from "./src/Screens/Register";
 import { NavigationContainer } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -103,6 +104,13 @@ const App = () => {
             name="Login"
             component={LoginScreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{
+              title: "LearnApp",
+            }}
           />
           <Stack.Screen
             name="MyTabs"
