@@ -36,7 +36,7 @@ const LoginScreen = ({ navigation }) => {
   const login = () => {
     console.log("hi " + data.number + " you are " + data.type);
     data.type === "Student"
-      ? navigation.pish("MyTabs", { data: data })
+      ? navigation.push("MyTabs", { data: data })
       : data.type === "Teacher"
       ? navigation.push("MyTabsTeacher", { data: data })
       : navigation.navigate("Login", window.alert("Datos erroneos"));
@@ -152,7 +152,7 @@ const LoginScreen = ({ navigation }) => {
             <HStack mt="6" justifyContent="center">
               <Link
                 onPress={() => {
-                  navigation.navigate("Register");
+                  navigation.push("Register");
                 }}
                 _text={{
                   fontSize: "xs",

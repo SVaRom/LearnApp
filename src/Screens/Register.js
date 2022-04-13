@@ -27,7 +27,10 @@ const RegisterScreen = ({ navigation }) => {
   const register = () => {
     console.log("Register responsive " + data.name);
     // ! If registro es exitoso
-    navigation.navigate("Login");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
   };
   return (
     <ScrollView flex={1}>
