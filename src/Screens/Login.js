@@ -36,9 +36,9 @@ const LoginScreen = ({ navigation }) => {
   const login = () => {
     console.log("hi " + data.number + " you are " + data.type);
     data.type === "Student"
-      ? navigation.navigate("MyTabs", { data: data })
+      ? navigation.pish("MyTabs", { data: data })
       : data.type === "Teacher"
-      ? navigation.navigate("MyTabsTeacher", { data: data })
+      ? navigation.push("MyTabsTeacher", { data: data })
       : navigation.navigate("Login", window.alert("Datos erroneos"));
   };
   return (
