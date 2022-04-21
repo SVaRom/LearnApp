@@ -12,6 +12,8 @@ import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendar";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
+import UpdateScreen from "./src/Screens/Identity";
+import ForgotScreen from "./src/Screens/Forgot";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -191,6 +193,20 @@ const App = () => {
               headerBackVisible: false,
               headerLeft: () => null,
               headerRight: () => <LogoutMenu />,
+            }}
+          />
+          <Stack.Screen
+            name="Identity"
+            component={UpdateScreen}
+            options={{
+              title: "LearnApp",
+            }}
+          />
+          <Stack.Screen
+            name="Forgot"
+            component={ForgotScreen}
+            options={{
+              title: "LearnApp",
             }}
           />
         </Stack.Navigator>

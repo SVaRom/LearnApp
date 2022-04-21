@@ -136,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
             <HStack mt="6" justifyContent="center">
               <Link
                 onPress={() => {
-                  console.log("Supon un modificar");
+                  navigation.push("Identity");
                 }}
                 _text={{
                   fontSize: "xs",
