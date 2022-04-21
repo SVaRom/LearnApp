@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { HStack,Avatar,Heading,VStack,ScrollView, Divider,ZStack,Center,Box,IconButton,Icon } from "native-base";
+import { HStack,Avatar,Heading,VStack,ScrollView, Divider,ZStack,Center,Box,IconButton,Icon, Link,Flex,Menu } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 const Profile = ({ navigation, data}) => {
   const [text, setText] = React.useState("");
@@ -19,6 +19,7 @@ const Profile = ({ navigation, data}) => {
         }}>
         AJ
       </Avatar>
+     
   </Center>
    <HStack justifyContent="center" space={2} paddingBottom="2">
       <Heading size="md">{data.number}</Heading>
@@ -26,13 +27,47 @@ const Profile = ({ navigation, data}) => {
     
    <ScrollView>
    <Divider /> 
-      <VStack space="2.5" mt="4" px="8">
+      <VStack space="2.5" mt="4" px="5">
         <Heading size="md">Número de control</Heading>
         <Text>{data.number}</Text>
         <Heading size="md">Carrera</Heading>
         <Text>{data.number}</Text>
       </VStack>
       </ScrollView>
+      <Box alignItems="center">
+      <Flex direction="row" h="58" p="4">
+      <Link
+                onPress={() => {
+                  navigation.navigate("Login");
+                }}
+                _text={{
+                  fontSize: "xs",
+                  fontWeight: "500",
+                  color: "#be8800",
+                }}
+                alignSelf="flex-end"
+                mt="1"
+              >
+                Eliminar cuenta
+              </Link>
+        <Divider bg="#E0E0E0" thickness="2" mx="2" orientation="vertical" />
+        <Link
+                onPress={() => {
+                  console.log("Supon un modificar");
+                }}
+                _text={{
+                  fontSize: "xs",
+                  fontWeight: "500",
+                  color: "#007abc",
+                }}
+                alignSelf="flex-end"
+                mt="1"
+              >
+                Cambiar contraseña
+            
+              </Link>
+      </Flex>
+    </Box>
     </View>
   );
 };
