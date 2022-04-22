@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { HStack,Avatar,Heading,VStack,ScrollView, Divider,ZStack,Center,Box,IconButton,Icon, Link,Flex,Menu } from "native-base";
+import { HStack,Avatar,Heading,VStack,ScrollView, Divider,ZStack,Center,Box,IconButton,Icon, Link,Flex,Menu,Modal,Button,useToast } from "native-base";
 const Profile = ({ navigation, data }) => {
+  const [showModal, setShowModal] = React.useState(false);
   const [text, setText] = React.useState("");
+  const toast = useToast();
   return (
     <View
       style={{
@@ -37,7 +39,7 @@ const Profile = ({ navigation, data }) => {
       <Flex direction="row" h="58" p="4">
       <Link
                 onPress={() => {
-                  navigation.navigate("Login");
+                  setShowModal(true)
                 }}
                 _text={{
                   fontSize: "xs",
@@ -66,6 +68,32 @@ const Profile = ({ navigation, data }) => {
             
               </Link>
       </Flex>
+      <Modal isOpen={showModal} onClose={() => {
+        setShowModal(false);
+        
+        }}>
+        <Modal.Content maxWidth="400px">
+          <Modal.CloseButton />
+          <Modal.Header>Eliminal la cuenta!</Modal.Header>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+              setShowModal(false);
+            }}>
+                Cancel
+              </Button>
+              <Button onPress={() => {
+              setShowModal(false);
+              toast.show({description: "Cuenta eliminada"});
+              navigation.navigate("Login");
+
+            }}>
+                Confirmar
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </Box>
     <Box flex="1">
       </Box>

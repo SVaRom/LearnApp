@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, View, Text,TouchableOpacity,StyleSheet } from "react-native";
-import { ScrollView,Center,Heading,VStack,Box,FlatList,HStack,Avatar,Spacer,Modal,Button,FormControl,Input} from "native-base";
+import { ScrollView,Center,Heading,VStack,Box,FlatList,HStack,Avatar,Spacer,Modal,Button,FormControl,Input, useToast,Toast} from "native-base";
 const Home = ({ navigation, data1 }) => {
   const [text, setText] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
@@ -15,7 +15,7 @@ const Home = ({ navigation, data1 }) => {
     setSelectedItem("");
     setModalIsOpen(false);
   };
-
+ const toast =useToast();
   const data = [{
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
     fullName: "Matematicas Aplicadas",
@@ -136,7 +136,11 @@ const Home = ({ navigation, data1 }) => {
                         >
                           Cancel
                         </Button>
-                        <Button onPress={closeModal}>Unirme</Button>
+                        <Button onPress={()=>{
+                        toast.show({description: "Inscripción correcta!"})
+                        closeModal();
+                        }}>
+                        Unirme</Button>
                       </Button.Group>
                     </Modal.Footer>
                   </Modal.Content>
