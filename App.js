@@ -14,6 +14,7 @@ import CalendarTeacherScreen from "./src/Screens/Teacher/Calendar";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
 import UpdateScreen from "./src/Screens/Identity";
 import ForgotScreen from "./src/Screens/Forgot";
+import ChangeScreen2 from "./src/Screens/ForgotLogged";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -205,6 +206,13 @@ const App = () => {
           <Stack.Screen
             name="Forgot"
             component={ForgotScreen}
+            options={{
+              title: "LearnApp",
+            }}
+          />
+          <Stack.Screen
+            name="Change"
+            component={ChangeScreen2}
             options={{
               title: "LearnApp",
             }}

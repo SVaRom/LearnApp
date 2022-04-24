@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
+  ScrollView,
   Heading,
   VStack,
   Box,
@@ -11,8 +12,9 @@ import {
   Modal,
   Button,
   FormControl,
+  useToast,
 } from "native-base";
-const Home = ({ navigation, data1 }) => {
+const Home = ({ navigation, data }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState("");
   const expandModal = (item) => {
@@ -24,8 +26,8 @@ const Home = ({ navigation, data1 }) => {
     setSelectedItem("");
     setModalIsOpen(false);
   };
-
-  const data = [
+  const toast = useToast();
+  const data1 = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
       fullName: "Matematicas Aplicadas",
@@ -76,36 +78,6 @@ const Home = ({ navigation, data1 }) => {
       avatarUrl:
         "https://101noticias.com/wp-content/uploads/2022/03/cad19-16478003136654-1920-800x600.jpg",
     },
-    {
-      id: "28694a0f-3da1-471f-bd96-asdadsasd",
-      fullName: "Cálculo Integral",
-      timeStamp: "11:00 AM",
-      aula: "54",
-      estatus: "Perdida",
-      recentText: "Cuquito",
-      avatarUrl:
-        "https://101noticias.com/wp-content/uploads/2022/03/cad19-16478003136654-1920-800x600.jpg",
-    },
-    {
-      id: "asdasdasd-3da1-471f-bd96-142456e29d72",
-      fullName: "Cálculo Integral",
-      timeStamp: "11:00 AM",
-      aula: "54",
-      estatus: "Perdida",
-      recentText: "Cuquito",
-      avatarUrl:
-        "https://101noticias.com/wp-content/uploads/2022/03/cad19-16478003136654-1920-800x600.jpg",
-    },
-    {
-      id: "28694a0f-3da1-471f-bd96-asdasdasdasd",
-      fullName: "Cálculo Integral",
-      timeStamp: "11:00 AM",
-      aula: "54",
-      estatus: "Perdida",
-      recentText: "Cuquito",
-      avatarUrl:
-        "https://101noticias.com/wp-content/uploads/2022/03/cad19-16478003136654-1920-800x600.jpg",
-    },
   ];
   return (
     <View
@@ -117,98 +89,119 @@ const Home = ({ navigation, data1 }) => {
         margin: 2,
       }}
     >
-      <Box>
-        <Heading fontSize="xl" p="3" pb="3">
-          Asesorias Ofertadas
-        </Heading>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => expandModal(item)}>
-              <Box
-                borderBottomWidth="1"
-                _dark={{
-                  borderColor: "gray.600",
-                }}
-                borderColor="coolGray.200"
-                pl="4"
-                pr="5"
-                py="2"
-              >
-                <HStack space={3} justifyContent="space-between">
-                  <Avatar
-                    size="xl"
-                    source={{
-                      uri: item.avatarUrl,
-                    }}
-                  />
-                  <VStack>
+      <ScrollView
+        maxW="400"
+        h="60"
+        _contentContainerStyle={{
+          px: "10px",
+          mb: "10",
+          minW: "40",
+        }}
+      >
+        <Box>
+          <Heading fontSize="xl" p="3" pb="3">
+            Asesorias Ofertadas
+          </Heading>
+          <FlatList
+            data={data1}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => expandModal(item)}>
+                <Box
+                  borderBottomWidth="1"
+                  _dark={{
+                    borderColor: "gray.600",
+                  }}
+                  borderColor="coolGray.200"
+                  pl="4"
+                  pr="5"
+                  py="2"
+                >
+                  <HStack space={3} justifyContent="space-between">
+                    <Avatar
+                      size="xl"
+                      source={{
+                        uri: item.avatarUrl,
+                      }}
+                    />
+                    <VStack>
+                      <Text
+                        _dark={{
+                          color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                      >
+                        {item.fullName}
+                      </Text>
+                      <Text
+                        color="coolGray.600"
+                        _dark={{
+                          color: "warmGray.200",
+                        }}
+                      >
+                        {item.recentText}
+                      </Text>
+                    </VStack>
+                    <Spacer />
                     <Text
+                      fontSize="xs"
                       _dark={{
                         color: "warmGray.50",
                       }}
                       color="coolGray.800"
-                      bold
+                      alignSelf="flex-start"
                     >
-                      {item.fullName}
+                      {item.timeStamp}
                     </Text>
-                    <Text
-                      color="coolGray.600"
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                    >
-                      {item.recentText}
-                    </Text>
-                  </VStack>
-                  <Spacer />
-                  <Text
-                    fontSize="xs"
-                    _dark={{
-                      color: "warmGray.50",
-                    }}
-                    color="coolGray.800"
-                    alignSelf="flex-start"
+                  </HStack>
+                </Box>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+          />
+          <Modal isOpen={modalIsOpen} onClose={closeModal}>
+            <Modal.Content maxWidth="400px">
+              <Modal.CloseButton />
+              <Modal.Header>Unirse</Modal.Header>
+              <Modal.Body>
+                <FormControl>
+                  <FormControl.Label fontSize="2xl">Materia:</FormControl.Label>
+                  <FormControl.Label>{selectedItem.fullName}</FormControl.Label>
+                  <FormControl.Label fontSize="2xl">Maestro:</FormControl.Label>
+                  <FormControl.Label>
+                    {selectedItem.recentText}
+                  </FormControl.Label>
+                  <FormControl.Label fontSize="2xl">Hora:</FormControl.Label>
+                  <FormControl.Label>
+                    {selectedItem.timeStamp}
+                  </FormControl.Label>
+                  <FormControl.Label fontSize="2xl">Aula:</FormControl.Label>
+                  <FormControl.Label>{selectedItem.aula}</FormControl.Label>
+                </FormControl>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    variant="ghost"
+                    colorScheme="blueGray"
+                    onPress={closeModal}
                   >
-                    {item.timeStamp}
-                  </Text>
-                </HStack>
-              </Box>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-        <Modal isOpen={modalIsOpen} onClose={closeModal}>
-          <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
-            <Modal.Header>Unirse</Modal.Header>
-            <Modal.Body>
-              <FormControl>
-                <FormControl.Label fontSize="2xl">Materia:</FormControl.Label>
-                <FormControl.Label>{selectedItem.fullName}</FormControl.Label>
-                <FormControl.Label fontSize="2xl">Maestro:</FormControl.Label>
-                <FormControl.Label>{selectedItem.recentText}</FormControl.Label>
-                <FormControl.Label fontSize="2xl">Hora:</FormControl.Label>
-                <FormControl.Label>{selectedItem.timeStamp}</FormControl.Label>
-                <FormControl.Label fontSize="2xl">Aula:</FormControl.Label>
-                <FormControl.Label>{selectedItem.aula}</FormControl.Label>
-              </FormControl>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button.Group space={2}>
-                <Button
-                  variant="ghost"
-                  colorScheme="blueGray"
-                  onPress={closeModal}
-                >
-                  Cancel
-                </Button>
-                <Button onPress={closeModal}>Unirme</Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-      </Box>
+                    Cancel
+                  </Button>
+                  <Button
+                    onPress={() => {
+                      toast.show({ description: "Inscripción correcta!" });
+                      closeModal();
+                    }}
+                  >
+                    Unirme
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
+        </Box>
+      </ScrollView>
     </View>
   );
 };

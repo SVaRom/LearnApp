@@ -1,19 +1,38 @@
 import React from "react";
-import { TextInput, Button, View, Text } from "react-native";
-const Calendar = ({ navigation, data }) => {
+import { View } from "react-native";
+import { Calendar } from "react-native-calendars";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+const CalendarS = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-        margin: 10,
-      }}
-    >
-      <Text>Aquí es calendario {data.number}</Text>
+    <View style={{ flex: 1 }}>
+      <Calendar
+        onDayPress={(day) => {
+          console.log("selected day", day);
+        }}
+        hideArrows={false}
+        renderArrow={(direction) =>
+          direction === "left" ? (
+            <MaterialCommunityIcons
+              name="chevron-left"
+              color="#B2BEB5"
+              size={26}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              name="chevron-right"
+              color="#B2BEB5"
+              size={26}
+            />
+          )
+        }
+        onPressArrowLeft={(subtractMonth) => subtractMonth()}
+        onPressArrowRight={(addMonth) => addMonth()}
+        disableArrowLeft={false}
+        disableArrowRight={false}
+        enableSwipeMonths={true}
+      />
     </View>
   );
 };
-export default Calendar;
+export default CalendarS;
