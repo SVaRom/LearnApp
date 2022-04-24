@@ -70,7 +70,7 @@ const Profile = ({ navigation, data }) => {
           <Divider bg="#E0E0E0" thickness="2" mx="2" orientation="vertical" />
           <Link
             onPress={() => {
-              console.log("Supon un modificar");
+              navigation.push("Change", { data: data });
             }}
             _text={{
               fontSize: "xs",
@@ -91,7 +91,7 @@ const Profile = ({ navigation, data }) => {
         >
           <Modal.Content maxWidth="400px">
             <Modal.CloseButton />
-            <Modal.Header>Eliminal la cuenta!</Modal.Header>
+            <Modal.Header>¿Estás seguro de eliminar tu cuenta?</Modal.Header>
             <Modal.Footer>
               <Button.Group space={2}>
                 <Button

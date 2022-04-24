@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import {
   ScrollView,
-  Center,
   Heading,
   VStack,
   Box,
@@ -19,9 +12,7 @@ import {
   Modal,
   Button,
   FormControl,
-  Input,
   useToast,
-  Toast,
 } from "native-base";
 const Home = ({ navigation, data }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
