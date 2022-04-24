@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
+  Checkbox,
   Heading,
   VStack,
   Box,
@@ -12,9 +13,10 @@ import {
   Button,
   FormControl,
 } from "native-base";
-const History = ({ navigation, data }) => {
+const Attendance = ({ navigation, route }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState("");
+  const [status, setStatus] = React.useState(false);
 
   const expandModal = (item) => {
     setSelectedItem(item);
@@ -25,6 +27,19 @@ const History = ({ navigation, data }) => {
     setSelectedItem("");
     setModalIsOpen(false);
   };
+  const handleAttendace = (selectedItem) => {
+    if (status) {
+      selectedItem.estatus = "Tomada";
+      selectedItem.avatarUrl =
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png";
+    } else {
+      selectedItem.estatus = "Perdida";
+      selectedItem.avatarUrl =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx062PdX4FMGEDi9dpGfcYZdnzVeeLFahEsQ&usqp=CAU";
+    }
+    console.log(selectedItem.estatus);
+    closeModal();
+  };
 
   const data1 = [
     {
@@ -34,8 +49,7 @@ const History = ({ navigation, data }) => {
       estatus: "Tomada",
       aula: "54",
       recentText: "Rosendo Ramirez",
-      avatarUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png",
+      avatarUrl: "",
     },
     {
       id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
@@ -146,7 +160,9 @@ const History = ({ navigation, data }) => {
                   <Modal isOpen={modalIsOpen} onClose={closeModal}>
                     <Modal.Content maxWidth="400px">
                       <Modal.CloseButton />
-                      <Modal.Header>{selectedItem.estatus}</Modal.Header>
+                      <Modal.Header>
+                        Asistencia de {route.params.data.number}
+                      </Modal.Header>
                       <Modal.Body>
                         <FormControl>
                           <FormControl.Label>Materia:</FormControl.Label>
@@ -165,6 +181,13 @@ const History = ({ navigation, data }) => {
                           <FormControl.Label>
                             {selectedItem.aula}
                           </FormControl.Label>
+                          <Checkbox
+                            onChange={(state) => {
+                              state ? setStatus(true) : setStatus(false);
+                            }}
+                          >
+                            Confirmar asistencia
+                          </Checkbox>
                         </FormControl>
                       </Modal.Body>
                       <Modal.Footer>
@@ -172,9 +195,9 @@ const History = ({ navigation, data }) => {
                           <Button
                             variant="ghost"
                             colorScheme="blue"
-                            onPress={closeModal}
+                            onPress={() => handleAttendace(selectedItem)}
                           >
-                            Cerrar
+                            Hecho
                           </Button>
                         </Button.Group>
                       </Modal.Footer>
@@ -191,4 +214,4 @@ const History = ({ navigation, data }) => {
   );
 };
 
-export default History;
+export default Attendance;
