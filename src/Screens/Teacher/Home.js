@@ -18,7 +18,7 @@ const timeToString = (time) => {
   return date.toISOString().split("T")[0];
 };
 
-const Home = () => {
+const Home = ({ navigation, data }) => {
   const [items, setItems] = useState({});
 
   const loadItems = (day) => {

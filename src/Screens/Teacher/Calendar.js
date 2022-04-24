@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Calendario = () => {
+const Calendario = ({ navigation, data }) => {
   return (
     <View style={{ flex: 1 }}>
       <Calendar

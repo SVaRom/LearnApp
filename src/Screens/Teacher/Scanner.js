@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, Button, View, Text } from "react-native";
-const Scanner = ({ navigation, name }) => {
+const Scanner = ({ navigation, data }) => {
   const [text, setText] = React.useState("");
   return (
     <View
@@ -12,7 +12,7 @@ const Scanner = ({ navigation, name }) => {
         margin: 10,
       }}
     >
-      <Text>Aquí es scanner {name}</Text>
+      <Text>Aquí es scanner {data.number}</Text>
     </View>
   );
 };
