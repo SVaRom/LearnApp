@@ -36,9 +36,9 @@ const LoginScreen = ({ navigation }) => {
   const login = () => {
     console.log("hi " + data.number + " you are " + data.type);
     data.type === "Student"
-      ? navigation.navigate("MyTabs", { data: data })
+      ? navigation.push("MyTabs", { data: data })
       : data.type === "Teacher"
-      ? navigation.navigate("MyTabsTeacher", { data: data })
+      ? navigation.push("MyTabsTeacher", { data: data })
       : navigation.navigate("Login", window.alert("Datos erroneos"));
   };
   return (
@@ -136,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
             <HStack mt="6" justifyContent="center">
               <Link
                 onPress={() => {
-                  console.log("Supon un modificar");
+                  navigation.push("Identity");
                 }}
                 _text={{
                   fontSize: "xs",
@@ -152,7 +152,7 @@ const LoginScreen = ({ navigation }) => {
             <HStack mt="6" justifyContent="center">
               <Link
                 onPress={() => {
-                  navigation.navigate("Register");
+                  navigation.push("Register");
                 }}
                 _text={{
                   fontSize: "xs",
