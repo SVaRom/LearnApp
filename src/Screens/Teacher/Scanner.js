@@ -13,6 +13,7 @@ const Scanner = ({ navigation, data }) => {
       }}
     >
       <Text>Aquí es scanner {data.number}</Text>
+      <Button onPress={() => navigation.push("Attendance", { data: data })} />
     </View>
   );
 };
