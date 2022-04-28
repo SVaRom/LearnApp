@@ -18,20 +18,7 @@ const Calendar = ({ navigation, route }) => {
       }
     }
     for (let i = 0; i < fechas.length; i++) {
-      let aux = false;
-      for (let j = 0; j < items[fechas[i].date].length; i++) {
-        if (fechas[i] != items[fechas[i].date][j]) {
-          aux = true;
-        } else {
-          aux = false;
-        }
-        console.log("entré");
-      }
-      console.log(aux);
-
-      if (aux || items[fechas[i].date] === []) {
-        items[fechas[i].date].push(fechas[i]);
-      }
+      items[fechas[i].date].push(fechas[i]);
     }
     setItems(items);
   };
