@@ -2,47 +2,38 @@ import React, { useState } from "react";
 import { NativeBaseProvider, View, Box, Text, Pressable } from "native-base";
 import { Agenda } from "react-native-calendars";
 
-const timeToString = (time) => {
-  const date = new Date(time);
-  return date.toISOString().split("T")[0];
-};
-
-const hourToString = (timestamp) => {
-  const date = new Date(timestamp * 1000);
-  let hour = date.getHours();
-  let minutes = date.getMinutes();
-  return hour + ":" + minutes;
-};
-
-const Calendar = () => {
+const Calendar = ({ navigation, route }) => {
   const [items, setItems] = useState({});
-  const loadItems = (day) => {
-    setTimeout(() => {
-      for (let i = -1; i < 5; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        console.log(time);
-        const strTime = timeToString(time);
-        const strClock = hourToString(time);
-        console.log(strTime);
-        console.log(strClock);
-        if (!items[strTime]) {
-          items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 3);
-          for (let j = 0; j < numItems; j++) {
-            items[strTime].push({
-              name: "Asesoria del día " + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-              hora: strClock,
-            });
-          }
-        }
+  const fechas = [
+    { date: "2022-04-28", name: "Asesoria Robles", time: "12:00" },
+    { date: "2022-04-28", name: "Asesoria Mascorro", time: "13:00" },
+    { date: "2022-04-28", name: "Asesoria Ilda", time: "14:00" },
+    { date: "2022-04-29", name: "Asesoria Mascorro", time: "13:00" },
+    { date: "2022-04-29", name: "Asesoria Ilda", time: "14:00" },
+  ];
+  const loadItems = () => {
+    for (let i = 0; i < fechas.length; i++) {
+      if (!items[fechas[i].date]) {
+        items[fechas[i].date] = [];
       }
-      const newItems = {};
-      Object.keys(items).forEach((key) => {
-        newItems[key] = items[key];
-      });
-      setItems(newItems);
-    }, 3);
+    }
+    for (let i = 0; i < fechas.length; i++) {
+      let aux = false;
+      for (let j = 0; j < items[fechas[i].date].length; i++) {
+        if (fechas[i] != items[fechas[i].date][j]) {
+          aux = true;
+        } else {
+          aux = false;
+        }
+        console.log("entré");
+      }
+      console.log(aux);
+
+      if (aux || items[fechas[i].date] === []) {
+        items[fechas[i].date].push(fechas[i]);
+      }
+    }
+    setItems(items);
   };
 
   const renderItem = (item) => {
@@ -50,8 +41,8 @@ const Calendar = () => {
       <Pressable style={{ marginRight: 10, marginTop: 17 }}>
         <Box>
           <Text>{item.name}</Text>
+          <Text>{item.date}</Text>
           <Text>{item.time}</Text>
-          <Text>{item.hora}</Text>
         </Box>
       </Pressable>
     );
@@ -59,7 +50,7 @@ const Calendar = () => {
 
   return (
     <NativeBaseProvider>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} on>
         <Agenda
           items={items}
           renderItem={renderItem}
