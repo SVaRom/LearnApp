@@ -12,6 +12,7 @@ import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
+import ProfileTeacherScreen from "./src/Screens/Teacher/Profile";
 import UpdateScreen from "./src/Screens/Identity";
 import ForgotScreen from "./src/Screens/Forgot";
 import ChangeScreen2 from "./src/Screens/ForgotLogged";
@@ -86,7 +87,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarColor: "#041C32",
+          tabBarColor: "#006a85",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -97,7 +98,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Calendario"
         options={{
-          tabBarColor: "#041C32",
+          tabBarColor: "#290a80",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="calendar-month"
@@ -114,7 +115,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Scanner"
         options={{
-          tabBarColor: "#041C32",
+          tabBarColor: "#810b81",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="qrcode-scan"
@@ -125,6 +126,19 @@ function MyTabsTeacher({ navigation, route }) {
         }}
       >
         {(props) => <ScannerScreen {...props} data={route.params.data} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarColor: "#179e6a",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      >
+        {(props) => (
+          <ProfileTeacherScreen {...props} data={route.params.data} />
+        )}
       </Tab.Screen>
     </Tab.Navigator>
   );

@@ -62,6 +62,7 @@ const Calendario = ({ navigation, route }) => {
             )
           }
           markedDates={{
+<<<<<<< Updated upstream
             "2022-04-16": {
               selected: true,
               marked: true,
@@ -74,6 +75,16 @@ const Calendario = ({ navigation, route }) => {
               activeOpacity: 0,
             },
             "2022-04-19": { disabled: true, disableTouchEvent: true },
+=======
+            "2022-04-16": { marked: true },
+            "2022-04-27": {
+              startingDay: true,
+              color: "green",
+              endingDay: true,
+            },
+            "2022-04-28": { marked: true, dotColor: "red" },
+            "2022-04-29": { marked: true },
+>>>>>>> Stashed changes
           }}
           onDayPress={(day) => {
             let fDate = day.day + "/" + day.month + "/" + day.year;
@@ -81,8 +92,8 @@ const Calendario = ({ navigation, route }) => {
             console.log(formDate);
             setShowModal(true);
           }}
-          markingType={"multi-dot"}
-          monthFormat={"yyyy MMMM"}
+          markingType={"period"}
+          monthFormat={"MMMM yyyy"}
         />
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <Modal.Content maxWidth="400px">
