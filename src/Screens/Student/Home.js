@@ -81,7 +81,7 @@ const Home = ({ navigation, data1 }) => {
       borderColor: "gray.600"
     }} borderColor="coolGray.200" pl="4" pr="5" py="2">
             <HStack space={3} justifyContent="space-between">
-              <Avatar size="xl" source={{
+              <Avatar size="45px" source={{
           uri: item.avatarUrl
         }} />
               <VStack>

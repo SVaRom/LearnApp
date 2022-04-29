@@ -44,7 +44,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Agenda"
         options={{
-          tabBarColor: "#04293A",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="calendar" color={color} size={26} />
           ),
@@ -55,7 +55,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Historial"
         options={{
-          tabBarColor: "#064663",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="bookshelf" color={color} size={26} />
           ),
@@ -66,7 +66,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Profile"
         options={{
-          tabBarColor: "#ECB365",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -87,7 +87,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarColor: "#006a85",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -98,7 +98,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Calendario"
         options={{
-          tabBarColor: "#290a80",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="calendar-month"
@@ -115,7 +115,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Scanner"
         options={{
-          tabBarColor: "#810b81",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="qrcode-scan"
@@ -130,7 +130,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Profile"
         options={{
-          tabBarColor: "#179e6a",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
