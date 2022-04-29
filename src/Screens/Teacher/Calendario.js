@@ -62,14 +62,18 @@ const Calendario = ({ navigation, route }) => {
             )
           }
           markedDates={{
-            "2012-05-16": {
+            "2022-04-16": {
               selected: true,
               marked: true,
               selectedColor: "blue",
             },
-            "2012-05-17": { marked: true },
-            "2012-05-18": { marked: true, dotColor: "red", activeOpacity: 0 },
-            "2012-05-19": { disabled: true, disableTouchEvent: true },
+            "2022-04-17": { marked: true },
+            "2022-04-18": {
+              marked: true,
+              dots: [{ color: "red" }],
+              activeOpacity: 0,
+            },
+            "2022-04-19": { disabled: true, disableTouchEvent: true },
           }}
           onDayPress={(day) => {
             let fDate = day.day + "/" + day.month + "/" + day.year;
