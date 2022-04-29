@@ -67,11 +67,6 @@ const History = ({ navigation, data1 }) => {
         margin: 2,
       }}
     >
-      <ScrollView maxW="400" h="60" _contentContainerStyle={{
-      px: "10px",
-      mb: "10",
-      minW: "40"
-    }}>
        <Box>
       <Heading fontSize="xl" p="3" pb="3">
         Historial De Asesorias
@@ -142,7 +137,6 @@ const History = ({ navigation, data1 }) => {
           } keyExtractor={item => item.id} />
           
     </Box>
-      </ScrollView>
     </View>
   );
 };
