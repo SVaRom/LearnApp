@@ -10,7 +10,7 @@ import CalendarScreen from "./src/Screens/Student/Calendar";
 import HistoryScreen from "./src/Screens/Student/History";
 import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import RegisterScreen from "./src/Screens/Register";
-import CalendarTeacherScreen from "./src/Screens/Teacher/Calendar";
+import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
 import UpdateScreen from "./src/Screens/Identity";
 import ForgotScreen from "./src/Screens/Forgot";
@@ -95,7 +95,7 @@ function MyTabsTeacher({ navigation, route }) {
         {(props) => <HomeTeacherScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Calendar"
+        name="Calendario"
         options={{
           tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
