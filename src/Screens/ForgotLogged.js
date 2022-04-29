@@ -10,13 +10,10 @@ import {
   Image,
   ScrollView,
 } from "native-base";
-const RegisterScreen = ({ navigation }) => {
+const ChangeScreen2 = ({ navigation, route }) => {
   const [data, setData] = React.useState({
-    name: "",
-    number: "",
-    career: "",
-    email: "",
     password: "",
+    confirmPassword: "",
   });
   const handleChange = (name, value) => {
     setData({
@@ -24,13 +21,17 @@ const RegisterScreen = ({ navigation }) => {
       [name]: value,
     });
   };
-  const register = () => {
-    console.log("Register responsive " + data.name);
-    // ! If registro es exitoso
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
+  const changePwd = () => {
+    if (data.password === data.confirmPassword) {
+      console.log(
+        "Update responsive " +
+          route.params.data.number +
+          " new_pwd:" +
+          data.password
+      );
+      // ! If update es exitoso
+      navigation.goBack();
+    }
   };
   return (
     <ScrollView flex={1}>
@@ -57,7 +58,7 @@ const RegisterScreen = ({ navigation }) => {
               color: "warmGray.50",
             }}
           >
-            Registro
+            Cambiar contraseña
           </Heading>
           <Heading
             mt="5"
@@ -69,48 +70,28 @@ const RegisterScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Favor de llenar los datos correspondientes con la debida información
+            Introduce tu nueva contraseña.
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Nombre completo</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("name", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Número de control</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("number", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Carrera</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("career", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Correo electrónico</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("email", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
+              <FormControl.Label>Nueva contraseña</FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("password", txt)}
                 type="password"
                 variant="underlined"
               />
             </FormControl>
-            <Button mt="2" colorScheme="gray" onPress={register}>
-              Registrarte
+            <FormControl>
+              <FormControl.Label>Confirmar contraseña</FormControl.Label>
+              <Input
+                onChangeText={(txt) => handleChange("confirmPassword", txt)}
+                type="password"
+                variant="underlined"
+              />
+            </FormControl>
+            <Button mt="2" colorScheme="gray" onPress={changePwd}>
+              Cambiar contraseña
             </Button>
           </VStack>
         </Box>
@@ -118,4 +99,4 @@ const RegisterScreen = ({ navigation }) => {
     </ScrollView>
   );
 };
-export default RegisterScreen;
+export default ChangeScreen2;

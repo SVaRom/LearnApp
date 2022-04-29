@@ -10,13 +10,10 @@ import {
   Image,
   ScrollView,
 } from "native-base";
-const RegisterScreen = ({ navigation }) => {
+const UpdateScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
-    name: "",
-    number: "",
-    career: "",
     email: "",
-    password: "",
+    number: "",
   });
   const handleChange = (name, value) => {
     setData({
@@ -24,13 +21,10 @@ const RegisterScreen = ({ navigation }) => {
       [name]: value,
     });
   };
-  const register = () => {
-    console.log("Register responsive " + data.name);
-    // ! If registro es exitoso
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
+  const changePwd = () => {
+    console.log("Update responsive " + data.email);
+    // ! If exists
+    navigation.push("Forgot", { dataI: data });
   };
   return (
     <ScrollView flex={1}>
@@ -57,7 +51,7 @@ const RegisterScreen = ({ navigation }) => {
               color: "warmGray.50",
             }}
           >
-            Registro
+            Restablecer contraseña
           </Heading>
           <Heading
             mt="5"
@@ -69,14 +63,14 @@ const RegisterScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Favor de llenar los datos correspondientes con la debida información
+            Introduce tu correo electrónico y número de control para continuar.
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Nombre completo</FormControl.Label>
+              <FormControl.Label>Correo electrónico</FormControl.Label>
               <Input
-                onChangeText={(txt) => handleChange("name", txt)}
+                onChangeText={(txt) => handleChange("email", txt)}
                 variant="underlined"
               />
             </FormControl>
@@ -87,30 +81,8 @@ const RegisterScreen = ({ navigation }) => {
                 variant="underlined"
               />
             </FormControl>
-            <FormControl>
-              <FormControl.Label>Carrera</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("career", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Correo electrónico</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("email", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("password", txt)}
-                type="password"
-                variant="underlined"
-              />
-            </FormControl>
-            <Button mt="2" colorScheme="gray" onPress={register}>
-              Registrarte
+            <Button mt="2" colorScheme="gray" onPress={changePwd}>
+              Cambiar contraseña
             </Button>
           </VStack>
         </Box>
@@ -118,4 +90,4 @@ const RegisterScreen = ({ navigation }) => {
     </ScrollView>
   );
 };
-export default RegisterScreen;
+export default UpdateScreen;
