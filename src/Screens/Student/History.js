@@ -1,7 +1,7 @@
 import React from "react";
-import { TextInput, View, Text,TouchableOpacity,StyleSheet } from "react-native";
-import { ScrollView,Center,Heading,VStack,Box,FlatList,HStack,Avatar,Spacer,Modal,Button,FormControl,Input} from "native-base";
-const History = ({ navigation, data1 }) => {
+import { View, Text,TouchableOpacity} from "react-native";
+import {Heading,VStack,Box,FlatList,HStack,Avatar,Spacer,Modal,Button,FormControl} from "native-base";
+const History = () => {
   const [text, setText] = React.useState("");
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState("");
