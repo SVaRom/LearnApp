@@ -105,7 +105,14 @@ const Home = ({ navigation, data }) => {
 
   return (
     <NativeBaseProvider>
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          display: "flex",
+          margin: 2,
+        }}
+      >
         <FlatList
           data={dataItems}
           renderItem={({ item }) => (
@@ -115,7 +122,7 @@ const Home = ({ navigation, data }) => {
                 _dark={{
                   borderColor: "muted.50",
                 }}
-                borderColor="muted.800"
+                borderColor="coolGray.200"
                 pl="4"
                 pr="5"
                 py="2"
