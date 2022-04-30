@@ -38,6 +38,7 @@ const Attendance = ({ navigation, route }) => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx062PdX4FMGEDi9dpGfcYZdnzVeeLFahEsQ&usqp=CAU";
     }
     console.log(selectedItem.estatus);
+    console.log(route.params.data);
     closeModal();
   };
 
@@ -161,7 +162,7 @@ const Attendance = ({ navigation, route }) => {
                     <Modal.Content maxWidth="400px">
                       <Modal.CloseButton />
                       <Modal.Header>
-                        Asistencia de {route.params.data.number}
+                        Asesoria de {route.params.data}
                       </Modal.Header>
                       <Modal.Body>
                         <FormControl>

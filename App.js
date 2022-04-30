@@ -20,6 +20,7 @@ import Attendance from "./src/Screens/Teacher/Attendance";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import SSRProvider from "react-bootstrap/SSRProvider";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -173,75 +174,77 @@ const LogoutMenu = () => {
 
 const App = () => {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: true }}
-          initialRouteName="Login"
-        >
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="MyTabs"
-            component={MyTabs}
-            options={{
-              title: "LearnApp",
-              headerBackVisible: false,
-              headerLeft: () => null,
-              headerRight: () => <LogoutMenu />,
-            }}
-          />
-          <Stack.Screen
-            name="MyTabsTeacher"
-            component={MyTabsTeacher}
-            options={{
-              title: "LearnApp",
-              headerBackVisible: false,
-              headerLeft: () => null,
-              headerRight: () => <LogoutMenu />,
-            }}
-          />
-          <Stack.Screen
-            name="Identity"
-            component={UpdateScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Forgot"
-            component={ForgotScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Change"
-            component={ChangeScreen2}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Attendance"
-            component={Attendance}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <SSRProvider>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: true }}
+            initialRouteName="Login"
+          >
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="MyTabs"
+              component={MyTabs}
+              options={{
+                title: "LearnApp",
+                headerBackVisible: false,
+                headerLeft: () => null,
+                headerRight: () => <LogoutMenu />,
+              }}
+            />
+            <Stack.Screen
+              name="MyTabsTeacher"
+              component={MyTabsTeacher}
+              options={{
+                title: "LearnApp",
+                headerBackVisible: false,
+                headerLeft: () => null,
+                headerRight: () => <LogoutMenu />,
+              }}
+            />
+            <Stack.Screen
+              name="Identity"
+              component={UpdateScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Forgot"
+              component={ForgotScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Change"
+              component={ChangeScreen2}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Attendance"
+              component={Attendance}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </SSRProvider>
   );
 };
 

@@ -46,7 +46,7 @@ LocaleConfig.locales["es"] = {
 };
 LocaleConfig.defaultLocale = "es";
 
-const Calendario = ({ navigation, route }) => {
+const Calendario = ({ navigation, data }) => {
   const [showModal, setShowModal] = useState(false);
   const [formDate, setFormDate] = useState("");
 
