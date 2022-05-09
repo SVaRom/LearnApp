@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Vibration } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  Vibration,
+  TouchableOpacity,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 const Scanner = ({ navigation }) => {
@@ -14,7 +21,6 @@ const Scanner = ({ navigation }) => {
   const handleBarCodeScanned = ({ type, data }) => {
     Vibration.vibrate();
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     navigation.push("Attendance", { data: data });
     console.log(data);
   };
@@ -31,7 +37,9 @@ const Scanner = ({ navigation }) => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      <Button title={"Tap to Scan"} onPress={() => setScanned(false)} />
+      <TouchableOpacity onPress={() => setScanned(false)}>
+        <Text>Tap to scan</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -41,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default Scanner;
