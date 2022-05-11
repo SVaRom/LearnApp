@@ -49,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
           borderRadius="full"
           _icon={{
             color: "gray.500",
-            size: "md",
+            size: "xl",
           }}
           _hover={{
             bg: "gray.600:alpha.20",
@@ -61,13 +61,13 @@ const LoginScreen = ({ navigation }) => {
             },
             _ios: {
               _icon: {
-                size: "md",
+                size: "xl",
               },
             },
           }}
           _ios={{
             _icon: {
-              size: "md",
+              size: "xl",
             },
           }}
           onPress={() => {
