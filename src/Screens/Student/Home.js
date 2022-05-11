@@ -19,13 +19,9 @@ import {
   Modal,
   Button,
   FormControl,
-  Input,
   useToast,
-  Toast,
 } from "native-base";
-const Home = ({ navigation, data1 }) => {
-  const [text, setText] = React.useState("");
-  const [showModal, setShowModal] = React.useState(false);
+const Home = ({ navigation, data }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState("");
   const expandModal = (item) => {
@@ -38,7 +34,7 @@ const Home = ({ navigation, data1 }) => {
     setModalIsOpen(false);
   };
   const toast = useToast();
-  const data = [
+  const data1 = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
       fullName: "Matematicas Aplicadas",
@@ -105,7 +101,7 @@ const Home = ({ navigation, data1 }) => {
           Asesorias Ofertadas
         </Heading>
         <FlatList
-          data={data}
+          data={data1}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => expandModal(item)}>
               <Box

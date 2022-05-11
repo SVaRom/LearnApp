@@ -8,13 +8,9 @@ import {
   VStack,
   ScrollView,
   Divider,
-  ZStack,
   Pressable,
-  HamburgerIcon,
   Center,
   Box,
-  IconButton,
-  Icon,
   Link,
   Flex,
   Menu,
@@ -24,10 +20,7 @@ import {
 } from "native-base";
 const Profile = ({ navigation, data }) => {
   const [showModal, setShowModal] = React.useState(false);
-  const [showModal1, setShowModal1] = React.useState(false);
-  const [showModal2, setShowModal2] = React.useState(false);
   const [modalIsOpen1, setModalIsOpen1] = React.useState(false);
-  const [text, setText] = React.useState("");
   const toast = useToast();
   return (
     <View
@@ -158,7 +151,7 @@ const Profile = ({ navigation, data }) => {
             <Modal.Body>
               <Center>
                 <QRCode
-                  value="Hola Mundo"
+                  value={data.number}
                   size={150}
                   bgColor="#282c34"
                   fgColor="#fff"
