@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -10,10 +10,10 @@ import {
   Image,
   ScrollView,
 } from "native-base";
+import { auth } from "../../database/firebase";
 const UpdateScreen = ({ navigation }) => {
-  const [data, setData] = React.useState({
+  const [data, setData] = useState({
     email: "",
-    number: "",
   });
   const handleChange = (name, value) => {
     setData({
@@ -22,9 +22,22 @@ const UpdateScreen = ({ navigation }) => {
     });
   };
   const changePwd = () => {
-    console.log("Update responsive " + data.email);
-    // ! If exists
-    navigation.push("Forgot", { dataI: data });
+    auth
+      .sendPasswordResetEmail(data.email)
+      .then(() => {
+        alert(
+          "Porfavor revisa tu correo electrónico... (También revisa en SPAM)"
+        );
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        });
+      })
+      .catch(function (e) {
+        alert(
+          "Algo salio mal, verifique que este utilizando en correo registrado"
+        );
+      });
   };
   return (
     <ScrollView flex={1}>
@@ -63,7 +76,7 @@ const UpdateScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Introduce tu correo electrónico y número de control para continuar.
+            Introduce tu correo electrónico para continuar.
           </Heading>
 
           <VStack space={3} mt="5">
@@ -71,13 +84,6 @@ const UpdateScreen = ({ navigation }) => {
               <FormControl.Label>Correo electrónico</FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("email", txt)}
-                variant="underlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Número de control</FormControl.Label>
-              <Input
-                onChangeText={(txt) => handleChange("number", txt)}
                 variant="underlined"
               />
             </FormControl>

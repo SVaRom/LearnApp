@@ -44,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
       .then((userCredentials) => {
         const user = userCredentials.user;
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert("Algo salio mal, intente de nuevo"));
   };
   const handleSearch = (mail) => {
     console.log(mail);

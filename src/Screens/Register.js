@@ -63,7 +63,7 @@ const RegisterScreen = ({ navigation }) => {
             routes: [{ name: "Login" }],
           });
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => alert("Algo salio mal, intente de nuevo"));
     }
   };
   return (

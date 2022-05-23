@@ -15,7 +15,6 @@ import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
 import ProfileTeacherScreen from "./src/Screens/Teacher/Profile";
 import UpdateScreen from "./src/Screens/Identity";
-import ForgotScreen from "./src/Screens/Forgot";
 import ChangeScreen2 from "./src/Screens/ForgotLogged";
 import Attendance from "./src/Screens/Teacher/Attendance";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -222,13 +221,6 @@ const App = () => {
             <Stack.Screen
               name="Identity"
               component={UpdateScreen}
-              options={{
-                title: "LearnApp",
-              }}
-            />
-            <Stack.Screen
-              name="Forgot"
-              component={ForgotScreen}
               options={{
                 title: "LearnApp",
               }}
