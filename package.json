@@ -21,6 +21,7 @@
     "expo": "~44.0.0",
     "expo-barcode-scanner": "~11.2.0",
     "expo-status-bar": "~1.2.0",
+    "firebase": "^8.2.3",
     "native-base": "^3.3.7",
     "react": "17.0.1",
     "react-bootstrap": "^2.3.1",

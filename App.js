@@ -1,6 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
+import { auth } from "./database/firebase";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Menu, Box, Pressable, NativeBaseProvider } from "native-base";
 import HomeScreen from "./src/Screens/Student/Home";
@@ -144,9 +145,16 @@ function MyTabsTeacher({ navigation, route }) {
     </Tab.Navigator>
   );
 }
-
 const LogoutMenu = () => {
   const navigation = useNavigation();
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
   return (
     <Box>
       <Menu
@@ -164,9 +172,7 @@ const LogoutMenu = () => {
           );
         }}
       >
-        <Menu.Item onPress={() => navigation.navigate("Login")}>
-          Log Out
-        </Menu.Item>
+        <Menu.Item onPress={handleSignOut}>Log Out</Menu.Item>
       </Menu>
     </Box>
   );
