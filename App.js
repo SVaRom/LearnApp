@@ -1,6 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
+import { auth } from "./database/firebase";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Menu, Box, Pressable, NativeBaseProvider } from "native-base";
 import HomeScreen from "./src/Screens/Student/Home";
@@ -14,12 +15,12 @@ import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
 import ProfileTeacherScreen from "./src/Screens/Teacher/Profile";
 import UpdateScreen from "./src/Screens/Identity";
-import ForgotScreen from "./src/Screens/Forgot";
 import ChangeScreen2 from "./src/Screens/ForgotLogged";
 import Attendance from "./src/Screens/Teacher/Attendance";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import SSRProvider from "react-bootstrap/SSRProvider";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -44,7 +45,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Agenda"
         options={{
-          tabBarColor: "#04293A",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="calendar" color={color} size={26} />
           ),
@@ -55,7 +56,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Historial"
         options={{
-          tabBarColor: "#064663",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="bookshelf" color={color} size={26} />
           ),
@@ -66,7 +67,7 @@ function MyTabs({ navigation, route }) {
       <Tab.Screen
         name="Profile"
         options={{
-          tabBarColor: "#ECB365",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -87,7 +88,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarColor: "#006a85",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -98,7 +99,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Calendario"
         options={{
-          tabBarColor: "#290a80",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="calendar-month"
@@ -115,7 +116,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Scanner"
         options={{
-          tabBarColor: "#810b81",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="qrcode-scan"
@@ -130,7 +131,7 @@ function MyTabsTeacher({ navigation, route }) {
       <Tab.Screen
         name="Profile"
         options={{
-          tabBarColor: "#179e6a",
+          tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -143,9 +144,16 @@ function MyTabsTeacher({ navigation, route }) {
     </Tab.Navigator>
   );
 }
-
 const LogoutMenu = () => {
   const navigation = useNavigation();
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
   return (
     <Box>
       <Menu
@@ -163,9 +171,7 @@ const LogoutMenu = () => {
           );
         }}
       >
-        <Menu.Item onPress={() => navigation.navigate("Login")}>
-          Log Out
-        </Menu.Item>
+        <Menu.Item onPress={handleSignOut}>Log Out</Menu.Item>
       </Menu>
     </Box>
   );
@@ -173,75 +179,70 @@ const LogoutMenu = () => {
 
 const App = () => {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: true }}
-          initialRouteName="Login"
-        >
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="MyTabs"
-            component={MyTabs}
-            options={{
-              title: "LearnApp",
-              headerBackVisible: false,
-              headerLeft: () => null,
-              headerRight: () => <LogoutMenu />,
-            }}
-          />
-          <Stack.Screen
-            name="MyTabsTeacher"
-            component={MyTabsTeacher}
-            options={{
-              title: "LearnApp",
-              headerBackVisible: false,
-              headerLeft: () => null,
-              headerRight: () => <LogoutMenu />,
-            }}
-          />
-          <Stack.Screen
-            name="Identity"
-            component={UpdateScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Forgot"
-            component={ForgotScreen}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Change"
-            component={ChangeScreen2}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-          <Stack.Screen
-            name="Attendance"
-            component={Attendance}
-            options={{
-              title: "LearnApp",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <SSRProvider>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: true }}
+            initialRouteName="Login"
+          >
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="MyTabs"
+              component={MyTabs}
+              options={{
+                title: "LearnApp",
+                headerBackVisible: false,
+                headerLeft: () => null,
+                headerRight: () => <LogoutMenu />,
+              }}
+            />
+            <Stack.Screen
+              name="MyTabsTeacher"
+              component={MyTabsTeacher}
+              options={{
+                title: "LearnApp",
+                headerBackVisible: false,
+                headerLeft: () => null,
+                headerRight: () => <LogoutMenu />,
+              }}
+            />
+            <Stack.Screen
+              name="Identity"
+              component={UpdateScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Change"
+              component={ChangeScreen2}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Attendance"
+              component={Attendance}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </SSRProvider>
   );
 };
 

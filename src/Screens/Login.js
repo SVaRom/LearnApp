@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -15,11 +15,21 @@ import {
   Icon,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
+import { auth } from "../../database/firebase";
+import firebase from "../../database/firebase";
 const LoginScreen = ({ navigation }) => {
-  const [data, setData] = React.useState({
-    number: "",
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        handleSearch(auth.currentUser.email);
+      }
+    });
+
+    return unsubscribe;
+  });
+  const [data, setData] = useState({
+    email: "",
     password: "",
-    type: "",
   });
   const handleChange = (name, value) => {
     setData({
@@ -27,19 +37,29 @@ const LoginScreen = ({ navigation }) => {
       [name]: value,
     });
   };
-  const checkType = () => {
-    if (data.number.length === 4) handleChange("type", "Teacher");
-    else if (data.number.length === 8) handleChange("type", "Student");
-    else handleChange("type", "");
-  };
 
   const login = () => {
-    console.log("hi " + data.number + " you are " + data.type);
-    data.type === "Student"
-      ? navigation.push("MyTabs", { data: data })
-      : data.type === "Teacher"
-      ? navigation.push("MyTabsTeacher", { data: data })
-      : navigation.navigate("Login", window.alert("Datos erroneos"));
+    auth
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+      })
+      .catch((error) => alert("Algo salio mal, intente de nuevo"));
+  };
+  const handleSearch = (mail) => {
+    console.log(mail);
+    firebase.db
+      .collection("users")
+      .where("email", "==", mail)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          console.log(doc.data().type);
+          if (doc.data().type === "Teacher")
+            navigation.replace("MyTabsTeacher", { data: doc.data() });
+          else navigation.replace("MyTabs", { data: doc.data() });
+        });
+      });
   };
   return (
     <View flex={1}>
@@ -49,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
           borderRadius="full"
           _icon={{
             color: "gray.500",
-            size: "md",
+            size: "xl",
           }}
           _hover={{
             bg: "gray.600:alpha.20",
@@ -61,13 +81,13 @@ const LoginScreen = ({ navigation }) => {
             },
             _ios: {
               _icon: {
-                size: "md",
+                size: "xl",
               },
             },
           }}
           _ios={{
             _icon: {
-              size: "md",
+              size: "xl",
             },
           }}
           onPress={() => {
@@ -115,10 +135,9 @@ const LoginScreen = ({ navigation }) => {
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Número de control</FormControl.Label>
+              <FormControl.Label>Correo electrónico</FormControl.Label>
               <Input
-                onChangeText={(txt) => handleChange("number", txt)}
-                onSelectionChange={checkType}
+                onChangeText={(txt) => handleChange("email", txt)}
                 variant="underlined"
               />
             </FormControl>

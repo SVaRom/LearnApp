@@ -8,13 +8,9 @@ import {
   VStack,
   ScrollView,
   Divider,
-  ZStack,
   Pressable,
-  HamburgerIcon,
   Center,
   Box,
-  IconButton,
-  Icon,
   Link,
   Flex,
   Menu,
@@ -24,10 +20,7 @@ import {
 } from "native-base";
 const Profile = ({ navigation, data }) => {
   const [showModal, setShowModal] = React.useState(false);
-  const [showModal1, setShowModal1] = React.useState(false);
-  const [showModal2, setShowModal2] = React.useState(false);
   const [modalIsOpen1, setModalIsOpen1] = React.useState(false);
-  const [text, setText] = React.useState("");
   const toast = useToast();
   return (
     <View
@@ -73,16 +66,16 @@ const Profile = ({ navigation, data }) => {
         </HStack>
       </Center>
       <HStack justifyContent="center" space={2} paddingBottom="2">
-        <Heading size="md">{data.number}</Heading>
+        <Heading size="md">{data.name}</Heading>
       </HStack>
 
       <ScrollView>
         <Divider />
         <VStack space="2.5" mt="4" px="5">
           <Heading size="md">Número de control</Heading>
-          <Text>{data.number}</Text>
+          <Text>{data.name}</Text>
           <Heading size="md">Carrera</Heading>
-          <Text>{data.number}</Text>
+          <Text>{data.name}</Text>
           <Button onPress={() => setModalIsOpen1(true)}>Pasar lista</Button>
         </VStack>
       </ScrollView>
@@ -158,7 +151,7 @@ const Profile = ({ navigation, data }) => {
             <Modal.Body>
               <Center>
                 <QRCode
-                  value="Hola Mundo"
+                  value={data.number}
                   size={150}
                   bgColor="#282c34"
                   fgColor="#fff"

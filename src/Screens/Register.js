@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -10,13 +10,16 @@ import {
   Image,
   ScrollView,
 } from "native-base";
+import { auth } from "../../database/firebase";
+import firebase from "../../database/firebase";
 const RegisterScreen = ({ navigation }) => {
-  const [data, setData] = React.useState({
+  const [data, setData] = useState({
     name: "",
     number: "",
     career: "",
     email: "",
     password: "",
+    type: "",
   });
   const handleChange = (name, value) => {
     setData({
@@ -24,13 +27,44 @@ const RegisterScreen = ({ navigation }) => {
       [name]: value,
     });
   };
+  const SaveNewUser = async () => {
+    //! await porque es asincrono y debemos usar async porque es sincronizable a datos nota: podemos agregar un loader
+    try {
+      let aux;
+      if (data.number.length === 4) aux = "Teacher";
+      else if (data.number.length === 8) aux = "Student";
+      await firebase.db.collection("users").add({
+        name: data.name,
+        number: data.number,
+        career: data.career,
+        email: data.email.toLowerCase(),
+        type: aux,
+      });
+    } catch (error) {
+      alert("Algo salio mal, intente de nuevo");
+    }
+  };
   const register = () => {
-    console.log("Register responsive " + data.name);
-    // ! If registro es exitoso
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
+    if (
+      data.name === "" ||
+      data.number === "" ||
+      data.email === "" ||
+      data.password === "" ||
+      data.career === ""
+    ) {
+      alert("Porfavor llene todos los campos");
+    } else {
+      auth
+        .createUserWithEmailAndPassword(data.email, data.password)
+        .then((userCredentials) => {
+          SaveNewUser();
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+          });
+        })
+        .catch((error) => alert("Algo salio mal, intente de nuevo"));
+    }
   };
   return (
     <ScrollView flex={1}>
