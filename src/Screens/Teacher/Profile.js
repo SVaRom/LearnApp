@@ -58,19 +58,19 @@ const Profile = ({ navigation, data }) => {
     >
       <Center paddingBottom="2">
         <Avatar bg="green.500" size="xl">
-          {data.number}
+          {data.name}
         </Avatar>
       </Center>
       <HStack justifyContent="center" space={2} paddingBottom="2">
-        <Heading size="md">{data.number}</Heading>
+        <Heading size="md">{data.name}</Heading>
       </HStack>
 
       <Divider />
       <VStack space="2.5" mt="4" px="5">
         <Heading size="md">Número de control</Heading>
-        <Text>{data.number}</Text>
+        <Text>{data.name}</Text>
         <Heading size="md">Carrera</Heading>
-        <Text>{data.number}</Text>
+        <Text>{data.name}</Text>
         <Heading size="md">Lista de materias</Heading>
         <FlatList
           data={dataItems}

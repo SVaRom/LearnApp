@@ -66,16 +66,16 @@ const Profile = ({ navigation, data }) => {
         </HStack>
       </Center>
       <HStack justifyContent="center" space={2} paddingBottom="2">
-        <Heading size="md">{data.number}</Heading>
+        <Heading size="md">{data.name}</Heading>
       </HStack>
 
       <ScrollView>
         <Divider />
         <VStack space="2.5" mt="4" px="5">
           <Heading size="md">Número de control</Heading>
-          <Text>{data.number}</Text>
+          <Text>{data.name}</Text>
           <Heading size="md">Carrera</Heading>
-          <Text>{data.number}</Text>
+          <Text>{data.name}</Text>
           <Button onPress={() => setModalIsOpen1(true)}>Pasar lista</Button>
         </VStack>
       </ScrollView>
