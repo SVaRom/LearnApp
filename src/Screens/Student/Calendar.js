@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { NativeBaseProvider, View, Modal,FormControl,Button } from "native-base";
+import {
+  NativeBaseProvider,
+  View,
+  Modal,
+  FormControl,
+  Button,
+} from "native-base";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Icon from "react-native-vector-icons/AntDesign";
 
@@ -84,11 +90,14 @@ const CalendarS = ({ navigation, route }) => {
           <Modal.Content maxWidth="400px">
             <Modal.CloseButton />
             <Modal.Header>{formDate}</Modal.Header>
-            <FormControl.Label fontSize="2xl"> usted no tiene asesorias este dia </FormControl.Label>
+            <FormControl.Label fontSize="2xl">
+              {" "}
+              usted no tiene asesorias este dia{" "}
+            </FormControl.Label>
             <Modal.Body></Modal.Body>
             <Modal.Footer>
-            <Button onPress={() => setShowModal(false)}>Hecho</Button>
-          </Modal.Footer>
+              <Button onPress={() => setShowModal(false)}>Hecho</Button>
+            </Modal.Footer>
           </Modal.Content>
         </Modal>
       </View>
