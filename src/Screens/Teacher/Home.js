@@ -1,281 +1,103 @@
-import React, { useState } from "react";
-import {
-  NativeBaseProvider,
-  View,
-  Fab,
-  Box,
-  Modal,
-  FormControl,
-  Button,
-  Text,
-  Pressable,
-  FlatList,
-  HStack,
-  Avatar,
-  VStack,
-  Spacer,
-  Input,
-} from "native-base";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
+import React, { useEffect, useState } from "react";
+import { NativeBaseProvider, ScrollView } from "native-base";
+import firebase from "../../../database/firebase";
+import { ListItem, Avatar } from "@rneui/themed";
+import { Button, FAB } from "@rneui/base";
 
 const Home = ({ navigation, data }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [textT, setTextT] = useState("HH:MM");
-  const [textD, setTextD] = useState("DD/MM/YYYY");
-  const [materia, setMateria] = useState();
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  const tMail = data.email;
+  console.log(tMail);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    let tempDate = new Date(currentDate);
-    let fDate =
-      tempDate.getDate() +
-      "/" +
-      (tempDate.getMonth() + 1) +
-      "/" +
-      tempDate.getFullYear();
-    let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
-    setTextD(fDate);
-    setTextT(fTime);
-  };
-
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const HandleAdd = () => {
-    console.log(textD);
-    console.log(textT);
-    console.log(materia);
-    setShowModal(false);
-  };
-
-  const HandleEdit = () => {
-    console.log(textD);
-    console.log(textT);
-    console.log(materia);
-    setShowModalEdit(false);
-  };
-
-  const dataItems = [
-    {
-      id: "1",
-      nameMateria: "Calculo Diferencial",
-      timeAsesoria: "12:30",
-      fechaAsesoria: "04/05/2022",
-      avatarUrl: "CD",
-    },
-    {
-      id: "2",
-      nameMateria: "Algebra lineal",
-      timeAsesoria: "14:00",
-      fechaAsesoria: "07/05/2022",
-      avatarUrl: "AL",
-    },
-    {
-      id: "3",
-      nameMateria: "Algebra lineal",
-      timeAsesoria: "10:20",
-      fechaAsesoria: "13/05/2022",
-      avatarUrl: "AL",
-    },
-    {
-      id: "4",
-      nameMateria: "Calculo Diferencial",
-      timeAsesoria: "8:30",
-      fechaAsesoria: "04/05/2022",
-      avatarUrl: "CD",
-    },
-    {
-      id: "5",
-      nameMateria: "Calculo Diferencial",
-      timeAsesoria: "11:20",
-      fechaAsesoria: "05/06/2022",
-      avatarUrl: "CD",
-    },
-  ];
-
+  const [classes, setClasses] = useState([]);
+  useEffect(() => {
+    let abortController = new AbortController();
+    firebase.db
+      .collection("asesorias")
+      .where("teacherMail", "==", tMail)
+      .onSnapshot((querySnapshot) => {
+        const classes = [];
+        querySnapshot.docs.forEach((doc) => {
+          const { subject, assessor, date, time, room } = doc.data();
+          const id = doc.id;
+          classes.push({
+            id: id,
+            subject: subject,
+            assessor: assessor,
+            date: date,
+            time: time,
+            room: room,
+          });
+        });
+        setClasses(classes);
+      });
+    abortController.abort();
+  }, []);
   return (
     <NativeBaseProvider>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          display: "flex",
-          margin: 2,
-        }}
-      >
-        <FlatList
-          data={dataItems}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => setShowModalEdit(true)}>
-              <Box
-                borderBottomWidth="1"
-                _dark={{
-                  borderColor: "muted.50",
-                }}
-                borderColor="coolGray.200"
-                pl="4"
-                pr="5"
-                py="2"
-              >
-                <HStack space={3} justifyContent="space-between">
-                  <Avatar size="48px">{item.avatarUrl}</Avatar>
-                  <VStack>
-                    <Text
-                      _dark={{
-                        color: "warmGray.50",
-                      }}
-                      color="coolGray.800"
-                      bold
-                    >
-                      {item.nameMateria}
-                    </Text>
-                    <Text
-                      color="coolGray.600"
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                    >
-                      {item.fechaAsesoria}
-                    </Text>
-                  </VStack>
-                  <Spacer />
-                  <Text
-                    fontSize="xs"
-                    _dark={{
-                      color: "warmGray.50",
-                    }}
-                    color="coolGray.800"
-                    alignSelf="flex-start"
-                  >
-                    {item.timeAsesoria}
-                  </Text>
-                </HStack>
-              </Box>
-            </Pressable>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-        <Fab
-          renderInPortal={false}
-          icon={<MaterialCommunityIcons color="white" name="plus" />}
-          onPress={() => setShowModal(true)}
-        />
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-          <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
-            <Modal.Header>Agregar asesoria</Modal.Header>
-            <Modal.Body>
-              <FormControl>
-                <FormControl.Label>Materia</FormControl.Label>
-                <Picker
-                  selectedValue={materia}
-                  placeholder="Seleccionar Materia"
-                  onValueChange={(itemValue, itemIndex) =>
-                    setMateria(itemValue)
-                  }
-                >
-                  <Picker.Item label="Calculo Diferencial" value="cd" />
-                  <Picker.Item label="Programación Web" value="web" />
-                  <Picker.Item label="Desarrollo movil" value="movdev" />
-                </Picker>
-              </FormControl>
-              <FormControl>
-                <FormControl.Label>Fecha</FormControl.Label>
-                <Pressable onPress={() => showMode("date")}>
-                  <Text fontSize="lg">{textD}</Text>
-                </Pressable>
-              </FormControl>
-              <FormControl>
-                <FormControl.Label>Hora</FormControl.Label>
-                <Pressable onPress={() => showMode("time")}>
-                  <Text fontSize="lg">{textT}</Text>
-                </Pressable>
-              </FormControl>
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  onChange={onChange}
+      <ScrollView>
+        {classes.map((advisory) => {
+          return (
+            <ListItem.Swipeable
+              key={advisory.id}
+              bottomDivider
+              leftContent={(reset) => (
+                <Button
+                  title="Edit"
+                  onPress={() => {
+                    navigation.navigate("Details", { advisoryID: advisory.id });
+                  }}
+                  icon={{ name: "edit", color: "white" }}
+                  buttonStyle={{ minHeight: "100%" }}
                 />
               )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button.Group space={2}>
+              rightContent={(reset) => (
                 <Button
-                  variant="ghost"
-                  colorScheme="blueGray"
+                  title="Delete"
                   onPress={() => {
-                    setShowModal(false);
+                    firebase.db
+                      .collection("asesorias")
+                      .doc(advisory.id)
+                      .delete();
                   }}
-                >
-                  Cancelar
-                </Button>
-                <Button onPress={() => HandleAdd()}>Agregar</Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-
-        <Modal isOpen={showModalEdit} onClose={() => setShowModalEdit(false)}>
-          <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
-            <Modal.Header>Editar asesoria</Modal.Header>
-            <Modal.Body>
-              <FormControl isDisabled>
-                <FormControl.Label>Materia</FormControl.Label>
-                <Input placeholder={materia}>{materia}</Input>
-              </FormControl>
-              <FormControl>
-                <FormControl.Label>Fecha</FormControl.Label>
-                <Pressable onPress={() => showMode("date")}>
-                  <Text fontSize="lg">{textD}</Text>
-                </Pressable>
-              </FormControl>
-              <FormControl>
-                <FormControl.Label>Hora</FormControl.Label>
-                <Pressable onPress={() => showMode("time")}>
-                  <Text fontSize="lg">{textT}</Text>
-                </Pressable>
-              </FormControl>
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  onChange={onChange}
+                  icon={{ name: "delete", color: "white" }}
+                  buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
                 />
               )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button.Group space={2}>
-                <Button
-                  variant="ghost"
-                  colorScheme="blueGray"
-                  onPress={() => {
-                    setShowModalEdit(false);
-                  }}
-                >
-                  Cancelar
-                </Button>
-                <Button onPress={() => HandleEdit()}>Editar</Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-      </View>
+            >
+              <Avatar
+                size={64}
+                rounded
+                title={advisory.subject.charAt(0)}
+                containerStyle={{ backgroundColor: getRandomColor() }}
+              />
+              <ListItem.Content>
+                <ListItem.Title>{advisory.subject}</ListItem.Title>
+                <ListItem.Subtitle>
+                  Date & Time: {advisory.time}, {advisory.date}
+                </ListItem.Subtitle>
+                <ListItem.Subtitle>
+                  Classroom: {advisory.room}
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem.Swipeable>
+          );
+        })}
+      </ScrollView>
+      <FAB
+        style={{ margin: 15 }}
+        placement="right"
+        color="#03A9F4"
+        icon={{ name: "add", color: "#fff" }}
+        onPress={() => navigation.navigate("Create", { email: data.email })}
+      />
     </NativeBaseProvider>
   );
 };

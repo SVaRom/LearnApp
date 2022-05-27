@@ -68,7 +68,7 @@ const Profile = ({ navigation, data }) => {
       <Divider />
       <VStack space="2.5" mt="4" px="5">
         <Heading size="md">Número de control</Heading>
-        <Text>{data.name}</Text>
+        <Text>{data.email}</Text>
         <Heading size="md">Carrera</Heading>
         <Text>{data.name}</Text>
         <Heading size="md">Lista de materias</Heading>
