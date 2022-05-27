@@ -104,7 +104,7 @@ const DetailsScreen = ({ navigation, route }) => {
         <Input
           label="Assignment"
           placeholder={advisor.subject}
-          onChange={(value) => handleChangeText("subject", value)}
+          onChangeText={(value) => handleChangeText("subject", value)}
         />
       </View>
       <View style={styles.inputGroup}>
