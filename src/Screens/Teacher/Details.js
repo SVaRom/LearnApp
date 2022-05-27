@@ -62,6 +62,7 @@ const DetailsScreen = ({ navigation, route }) => {
     time: "",
   };
   const [advisor, setAdvisor] = useState(initialState);
+  const [advisorH, setAdvisorH] = useState(initialState);
 
   const getClassById = async (advisorid) => {
     console.log(advisorid);
@@ -76,23 +77,25 @@ const DetailsScreen = ({ navigation, route }) => {
     console.log(advisor);
   };
   useEffect(() => {
+    let abortController = new AbortController();
     getClassById(route.params.advisoryID);
+    abortController.abort();
   }, []);
 
   const handleChangeText = (subject, value) => {
-    setAdvisor({ ...advisor, [subject]: value });
+    setAdvisorH({ ...advisor, [subject]: value });
   };
 
   const updateClass = async () => {
     const dbRef = firebase.db.collection("asesorias").doc(advisor.id);
     await dbRef.update({
-      subject: advisor.subject,
-      assessor: advisor.assessor,
-      room: advisor.room,
+      subject: advisorH.subject,
+      assessor: advisorH.assessor,
+      room: advisorH.room,
       date: textD,
       time: textT,
     });
-    setAdvisor(initialState);
+    setAdvisorH(initialState);
     console.log(advisor);
     navigation.navigate("Home");
   };
