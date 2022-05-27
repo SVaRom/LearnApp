@@ -73,7 +73,7 @@ const Profile = ({ navigation, data }) => {
         <Divider />
         <VStack space="2.5" mt="4" px="5">
           <Heading size="md">Número de control</Heading>
-          <Text>{data.number}</Text>
+          <Text>{data.name}</Text>
           <Heading size="md">Carrera</Heading>
           <Text>{data.name}</Text>
           <Button onPress={() => setModalIsOpen1(true)}>Pasar lista</Button>

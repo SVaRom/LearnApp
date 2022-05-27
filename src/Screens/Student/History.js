@@ -1,136 +1,194 @@
-import React, { useEffect, useState } from "react";
-import { 
-  View,
-  Text,
-  ScrollView,
-  Button,
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import {
+  Heading,
+  VStack,
+  Box,
+  FlatList,
+  HStack,
+  Avatar,
+  Spacer,
   Modal,
-  Alert,
-  StyleSheet, } from "react-native";
-import firebase from "../../../database/firebase";
-import { ListItem, Avatar } from "@rneui/themed";
-const History = ({ navigation }) => {
+  Button,
+  FormControl,
+} from "native-base";
+const History = ({ navigation, data }) => {
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState("");
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
   const expandModal = (item) => {
     setSelectedItem(item);
-    setModalVisible(true);
-    console.log(item);
+    setModalIsOpen(true);
   };
+
   const closeModal = () => {
     setSelectedItem("");
-    setModalVisible(false);
+    setModalIsOpen(false);
   };
 
-const [cursos, setCursos] = useState([]);
-
-  useEffect(() => {
-    let abortController = new AbortController();
-    firebase.db.collection("curso-student").onSnapshot((querySnapshot) => {
-      const cursos = [];
-      querySnapshot.docs.forEach((doc) => {
-        console.log("aki");
-        const { materia, profesor, hora, status } = doc.data();
-        console.log(doc.data());
-        const id = doc.id;
-        cursos.push({
-          id: id,
-          materia: materia,
-          profesor: profesor,
-          hora: hora,
-          status: status,
-        });
-      });
-      setCursos(cursos);
-    });
-    abortController.abort();
-  }, []);
+  const data1 = [
+    {
+      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+      fullName: "Matematicas Aplicadas",
+      timeStamp: "12:00 PM",
+      estatus: "Tomada",
+      aula: "54",
+      recentText: "Rosendo Ramirez",
+      avatarUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png",
+    },
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      fullName: "Programación Aplicada",
+      timeStamp: "11:00 AM",
+      aula: "54",
+      estatus: "Tomada",
+      recentText: "Fabricio Perez",
+      avatarUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      fullName: "Negocios Eléctronicos",
+      timeStamp: "10:00 AM",
+      aula: "54",
+      estatus: "Perdida",
+      recentText: "Ilda Díaz",
+      avatarUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx062PdX4FMGEDi9dpGfcYZdnzVeeLFahEsQ&usqp=CAU",
+    },
+    {
+      id: "68694a0f-3da1-431f-bd56-142371e29d72",
+      fullName: "Programación WEB",
+      timeStamp: "12:00 PM",
+      aula: "54",
+      estatus: "tomada",
+      recentText: "Dzul Lopéz",
+      avatarUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png",
+    },
+    {
+      id: "28694a0f-3da1-471f-bd96-142456e29d72",
+      fullName: "Cálculo Integral",
+      timeStamp: "11:00 AM",
+      aula: "54",
+      estatus: "Perdida",
+      recentText: "Cuquito",
+      avatarUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx062PdX4FMGEDi9dpGfcYZdnzVeeLFahEsQ&usqp=CAU",
+    },
+  ];
   return (
-    <ScrollView>
-    {cursos.map((curso) => {
-        return (
-          <ListItem key={curso.id}
-           onPress={() => {
-              expandModal(curso);
-            }}
-           bottomDivider>
-            <ListItem.Chevron/>
-            <Avatar rounded />
-            <ListItem.Content>
-              <ListItem.Title>{curso.materia}</ListItem.Title>
-              <ListItem.Subtitle>{curso.hora}</ListItem.Subtitle>
-              <ListItem.Subtitle>{curso.profesor}</ListItem.Subtitle>
-            </ListItem.Content>
-            <Modal
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={closeModal}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text>Curso </Text> 
-                  <Text>Materia:  {selectedItem.materia}</Text>
-                  <Text>Profesor:  {selectedItem.profesor}</Text>
-                  <Text>Hora:  {selectedItem.hora}</Text>
-                  <Text>Status: {selectedItem.status}</Text>
-                  <Button
-                    title="Cerrar"
-                    onPress={() => {
-                      closeModal();
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+        margin: 2,
+      }}
+    >
+      <Box>
+        <Heading fontSize="xl" p="3" pb="3">
+          Historial De Asesorias
+        </Heading>
+        <FlatList
+          data={data1}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => expandModal(item)}>
+              <Box
+                borderBottomWidth="1"
+                _dark={{
+                  borderColor: "gray.600",
+                }}
+                borderColor="coolGray.200"
+                pl="4"
+                pr="5"
+                py="2"
+              >
+                <HStack space={3} justifyContent="space-between">
+                  <Avatar
+                    size="48px"
+                    source={{
+                      uri: item.avatarUrl,
                     }}
                   />
-                </View>
-              </View>
-            </Modal>
-          </ListItem>
-        );
-      })}
-      
-    </ScrollView>
+                  <VStack>
+                    <Text
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      bold
+                    >
+                      {item.fullName}
+                    </Text>
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                    >
+                      {item.recentText}
+                    </Text>
+                  </VStack>
+                  <Spacer />
+                  <Text
+                    fontSize="xs"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                    color="coolGray.800"
+                    alignSelf="flex-start"
+                  >
+                    {item.timeStamp}
+                  </Text>
+                  <Modal isOpen={modalIsOpen} onClose={closeModal}>
+                    <Modal.Content maxWidth="400px">
+                      <Modal.CloseButton />
+                      <Modal.Header>{selectedItem.estatus}</Modal.Header>
+                      <Modal.Body>
+                        <FormControl>
+                          <FormControl.Label>Materia:</FormControl.Label>
+                          <FormControl.Label>
+                            {selectedItem.fullName}
+                          </FormControl.Label>
+                          <FormControl.Label>Hora:</FormControl.Label>
+                          <FormControl.Label>
+                            {selectedItem.timeStamp}
+                          </FormControl.Label>
+                          <FormControl.Label>Maestro:</FormControl.Label>
+                          <FormControl.Label>
+                            {selectedItem.recentText}
+                          </FormControl.Label>
+                          <FormControl.Label>Aula:</FormControl.Label>
+                          <FormControl.Label>
+                            {selectedItem.aula}
+                          </FormControl.Label>
+                        </FormControl>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button.Group space={2}>
+                          <Button
+                            variant="ghost"
+                            colorScheme="blue"
+                            onPress={closeModal}
+                          >
+                            Cerrar
+                          </Button>
+                        </Button.Group>
+                      </Modal.Footer>
+                    </Modal.Content>
+                  </Modal>
+                </HStack>
+              </Box>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </Box>
+    </View>
   );
 };
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
+
 export default History;
