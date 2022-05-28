@@ -75,7 +75,13 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {(props) => <ProfileScreen {...props} data={route.params.data} />}
+        {(props) => (
+          <ProfileScreen
+            {...props}
+            data={route.params.data}
+            id={route.params.id}
+          />
+        )}
       </Tab.Screen>
     </Tab.Navigator>
   );
@@ -140,7 +146,11 @@ function MyTabsTeacher({ navigation, route }) {
         }}
       >
         {(props) => (
-          <ProfileTeacherScreen {...props} data={route.params.data} />
+          <ProfileTeacherScreen
+            {...props}
+            data={route.params.data}
+            id={route.params.id}
+          />
         )}
       </Tab.Screen>
     </Tab.Navigator>

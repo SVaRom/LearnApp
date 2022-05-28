@@ -5,7 +5,6 @@ import {
   Avatar,
   Heading,
   VStack,
-  FlatList,
   useToast,
   Center,
   Divider,
@@ -14,39 +13,12 @@ import {
   Link,
   Modal,
   Button,
-  FormControl,
-  Input,
-  Fab,
 } from "native-base";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { auth } from "../../../database/firebase";
+import firebase from "../../../database/firebase";
 
-const dataItems = [
-  {
-    id: "1",
-    nameMateria: "Calculo Diferencial",
-    avatarUrl: "CD",
-  },
-  {
-    id: "2",
-    nameMateria: "Algebra Lineal",
-    avatarUrl: "AL",
-  },
-  {
-    id: "3",
-    nameMateria: "Negocios Electronicos",
-    avatarUrl: "NE",
-  },
-  {
-    id: "4",
-    nameMateria: "Redes Emergentes",
-    avatarUrl: "RE",
-  },
-];
-
-const Profile = ({ navigation, data }) => {
+const Profile = ({ navigation, data, id }) => {
   const [showModal, setShowModal] = React.useState(false);
-  const [showModal2, setShowModal2] = React.useState(false);
-  const [materia, setMateria] = useState("");
   const toast = useToast();
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
@@ -60,6 +32,13 @@ const Profile = ({ navigation, data }) => {
     const fullName = name.split(" ");
     const initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);
     return initials.toUpperCase();
+  };
+
+  const handleDelete = () => {
+    firebase.db.collection("users").doc(id).delete();
+    auth.signOut();
+    auth.currentUser.delete();
+    navigation.replace("Login");
   };
 
   return (
@@ -80,9 +59,9 @@ const Profile = ({ navigation, data }) => {
       </HStack>
       <Divider />
       <VStack space="2.5" mt="4" px="5">
-        <Heading size="md">Número de control</Heading>
+        <Heading size="md">Control number</Heading>
         <Text>{data.number}</Text>
-        <Heading size="md">Carrera</Heading>
+        <Heading size="md">Career</Heading>
         <Text>{data.career}</Text>
       </VStack>
       <Box alignItems="center">
@@ -99,7 +78,7 @@ const Profile = ({ navigation, data }) => {
             alignSelf="flex-end"
             mt="1"
           >
-            Eliminar cuenta
+            Delete account
           </Link>
           <Divider bg="#E0E0E0" thickness="2" mx="2" orientation="vertical" />
           <Link
@@ -114,7 +93,7 @@ const Profile = ({ navigation, data }) => {
             alignSelf="flex-end"
             mt="1"
           >
-            Cambiar contraseña
+            Change password
           </Link>
         </Flex>
 
@@ -126,7 +105,9 @@ const Profile = ({ navigation, data }) => {
         >
           <Modal.Content maxWidth="400px">
             <Modal.CloseButton />
-            <Modal.Header>¿Estás seguro de eliminar tu cuenta?</Modal.Header>
+            <Modal.Header>
+              Are you sure you want to delete your account?
+            </Modal.Header>
             <Modal.Footer>
               <Button.Group space={2}>
                 <Button
@@ -136,16 +117,16 @@ const Profile = ({ navigation, data }) => {
                     setShowModal(false);
                   }}
                 >
-                  Cancel
+                  No
                 </Button>
                 <Button
                   onPress={() => {
                     setShowModal(false);
-                    toast.show({ description: "Cuenta eliminada" });
-                    navigation.navigate("Login");
+                    handleDelete();
+                    toast.show({ description: "Account deleted successfully" });
                   }}
                 >
-                  Confirmar
+                  Yes
                 </Button>
               </Button.Group>
             </Modal.Footer>

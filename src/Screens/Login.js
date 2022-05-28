@@ -55,8 +55,11 @@ const LoginScreen = ({ navigation }) => {
       .then((querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
           if (doc.data().type === "Teacher")
-            navigation.replace("MyTabsTeacher", { data: doc.data() });
-          else navigation.replace("MyTabs", { data: doc.data() });
+            navigation.replace("MyTabsTeacher", {
+              data: doc.data(),
+              id: doc.id,
+            });
+          else navigation.replace("MyTabs", { data: doc.data(), id: doc.id });
         });
       });
   };
