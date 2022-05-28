@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-const Scanner = ({ navigation }) => {
+const Scanner = ({ navigation, data }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(true);
   useEffect(() => {
@@ -20,7 +20,7 @@ const Scanner = ({ navigation }) => {
   const handleBarCodeScanned = ({ type, data }) => {
     Vibration.vibrate();
     setScanned(true);
-    navigation.push("Attendance", { data: data });
+    navigation.push("Attendance", { data: data, numT: data.number });
     console.log(data);
   };
   if (hasPermission === null) {
