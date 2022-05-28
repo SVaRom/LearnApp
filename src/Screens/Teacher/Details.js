@@ -60,12 +60,16 @@ const DetailsScreen = ({ navigation, route }) => {
     room: "",
     date: "",
     time: "",
+    numTeacher: route.params.number,
+    nameTeacher: route.params.name,
   };
   const [advisor, setAdvisor] = useState(initialState);
   const [advisorH, setAdvisorH] = useState(initialState);
 
+  //console.log(route.params.advisory);
+
   const getClassById = async (advisorid) => {
-    console.log(advisorid);
+    //console.log(advisorid);
     const dbRef = firebase.db.collection("asesorias").doc(advisorid);
     const doc = await dbRef.get();
     const advisor = doc.data();
@@ -74,11 +78,11 @@ const DetailsScreen = ({ navigation, route }) => {
     let tempT = advisor.time;
     setTextD(tempD);
     setTextT(tempT);
-    console.log(advisor);
   };
   useEffect(() => {
     let abortController = new AbortController();
-    getClassById(route.params.advisoryID);
+    console.log(id);
+    getClassById(route.params.id);
     abortController.abort();
   }, []);
 

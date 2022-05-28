@@ -14,7 +14,6 @@ const Home = ({ navigation, data }) => {
     return color;
   }
   const nTeacher = data.number;
-  console.log(nTeacher);
 
   const [classes, setClasses] = useState([]);
   useEffect(() => {
@@ -52,7 +51,11 @@ const Home = ({ navigation, data }) => {
                 <Button
                   title="Edit"
                   onPress={() => {
-                    navigation.navigate("Details", { advisoryID: advisory.id });
+                    navigation.navigate("Details", {
+                      id: advisory.id,
+                      number: data.number,
+                      name: data.name,
+                    });
                   }}
                   icon={{ name: "edit", color: "white" }}
                   buttonStyle={{ minHeight: "100%" }}

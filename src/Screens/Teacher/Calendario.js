@@ -44,7 +44,11 @@ const CalendarS = ({ navigation, data }) => {
         querySnapshot.docs.forEach((doc) => {
           const { color, date } = doc.data();
           const id = doc.id;
-          datesC[date] = { marked: true, selectedColor: color, selected: true };
+          datesC[date] = {
+            marked: true,
+            selectedColor: getRandomColor(),
+            selected: true,
+          };
         });
         setDatesC(datesC);
       });
