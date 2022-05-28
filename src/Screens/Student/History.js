@@ -50,7 +50,7 @@ const History = ({ navigation, data }) => {
   return (
     <View>
       <Box bg="#FDFDFE">
-        <Text style={styles.title}> Attendance</Text>
+        <Text style={styles.title}>Attendance</Text>
       </Box>
       <Divider />
       <ScrollView>

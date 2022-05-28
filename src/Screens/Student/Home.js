@@ -85,7 +85,7 @@ const Home = ({ navigation, data }) => {
   return (
     <View>
       <Box bg="#FDFDFE">
-        <Text style={styles.title}> Cursos Ofertados </Text>
+        <Text style={styles.title}>Classes offered</Text>
       </Box>
       <Divider />
       <ScrollView>
