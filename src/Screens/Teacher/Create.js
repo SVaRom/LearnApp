@@ -11,17 +11,14 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
   const [textD, setTextD] = useState("DD/MM/YYYY");
   const [show, setShow] = useState(false);
 
-  let tMail = route.params.email;
-  console.log(tMail);
-
   const [state, setState] = useState({
     subject: "",
     assessor: "",
     room: "",
     cdate: "",
     ctime: "",
-    teacherName: "",
-    teacherMail: tMail,
+    nameTeacher: route.params.name,
+    numTeacher: route.params.number,
   });
   const handleChangeText = (subject, value) => {
     setState({ ...state, [subject]: value });
@@ -39,7 +36,8 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
           room: state.room,
           date: textD,
           time: textT,
-          teacherMail: state.teacherMail,
+          numTeacher: state.numTeacher,
+          nameTeacher: state.nameTeacher,
         });
         alert("Asesoria agregada con exito");
         navigation.navigate("Home");

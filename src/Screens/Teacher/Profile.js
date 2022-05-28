@@ -48,6 +48,20 @@ const Profile = ({ navigation, data }) => {
   const [showModal2, setShowModal2] = React.useState(false);
   const [materia, setMateria] = useState("");
   const toast = useToast();
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  const getInitials = (name) => {
+    const fullName = name.split(" ");
+    const initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);
+    return initials.toUpperCase();
+  };
+
   return (
     <View
       style={{
@@ -57,47 +71,19 @@ const Profile = ({ navigation, data }) => {
       }}
     >
       <Center paddingBottom="2">
-        <Avatar bg="green.500" size="xl">
-          {data.name}
+        <Avatar bg={getRandomColor()} size="xl">
+          {getInitials(data.name)}
         </Avatar>
       </Center>
       <HStack justifyContent="center" space={2} paddingBottom="2">
         <Heading size="md">{data.name}</Heading>
       </HStack>
-
       <Divider />
       <VStack space="2.5" mt="4" px="5">
         <Heading size="md">Número de control</Heading>
-        <Text>{data.email}</Text>
+        <Text>{data.number}</Text>
         <Heading size="md">Carrera</Heading>
-        <Text>{data.name}</Text>
-        <Heading size="md">Lista de materias</Heading>
-        <FlatList
-          data={dataItems}
-          renderItem={({ item }) => (
-            <Box
-              borderBottomWidth="1"
-              _dark={{
-                borderColor: "muted.50",
-              }}
-              borderColor="muted.800"
-              pl="4"
-              pr="5"
-              py="2"
-            >
-              <Text
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                bold
-              >
-                {item.nameMateria}
-              </Text>
-            </Box>
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        <Text>{data.career}</Text>
       </VStack>
       <Box alignItems="center">
         <Flex direction="row" h="58" p="4">
@@ -132,12 +118,6 @@ const Profile = ({ navigation, data }) => {
           </Link>
         </Flex>
 
-        <Fab
-          renderInPortal={false}
-          icon={<MaterialCommunityIcons color="white" name="plus" />}
-          onPress={() => setShowModal2(true)}
-        />
-
         <Modal
           isOpen={showModal}
           onClose={() => {
@@ -166,49 +146,6 @@ const Profile = ({ navigation, data }) => {
                   }}
                 >
                   Confirmar
-                </Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-
-        <Modal
-          isOpen={showModal2}
-          onClose={() => {
-            setShowModal2(false);
-          }}
-        >
-          <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
-            <Modal.Header>Agregar Materia</Modal.Header>
-            <Modal.Body>
-              <FormControl>
-                <FormControl.Label>Materia</FormControl.Label>
-                <Input
-                  placeholder="Nombre de la materia"
-                  onChangeText={(text) => setMateria(text)}
-                />
-              </FormControl>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button.Group space={2}>
-                <Button
-                  variant="ghost"
-                  colorScheme="blueGray"
-                  onPress={() => {
-                    setShowModal2(false);
-                  }}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  onPress={() => {
-                    setShowModal2(false);
-                    toast.show({ description: "Materia agregada" });
-                    console.log(materia);
-                  }}
-                >
-                  Agregar
                 </Button>
               </Button.Group>
             </Modal.Footer>

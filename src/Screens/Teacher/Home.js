@@ -13,15 +13,15 @@ const Home = ({ navigation, data }) => {
     }
     return color;
   }
-  const tMail = data.email;
-  console.log(tMail);
+  const nTeacher = data.number;
+  console.log(nTeacher);
 
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     let abortController = new AbortController();
     firebase.db
       .collection("asesorias")
-      .where("teacherMail", "==", tMail)
+      .where("numTeacher", "==", nTeacher)
       .onSnapshot((querySnapshot) => {
         const classes = [];
         querySnapshot.docs.forEach((doc) => {
@@ -96,7 +96,12 @@ const Home = ({ navigation, data }) => {
         placement="right"
         color="#03A9F4"
         icon={{ name: "add", color: "#fff" }}
-        onPress={() => navigation.navigate("Create", { email: data.email })}
+        onPress={() =>
+          navigation.navigate("Create", {
+            number: data.number,
+            name: data.name,
+          })
+        }
       />
     </NativeBaseProvider>
   );

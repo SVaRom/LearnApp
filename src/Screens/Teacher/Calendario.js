@@ -3,49 +3,6 @@ import { NativeBaseProvider, View, Modal } from "native-base";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Icon from "react-native-vector-icons/AntDesign";
 
-LocaleConfig.locales["es"] = {
-  monthNames: [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Juilio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ],
-  monthNamesShort: [
-    "Ene.",
-    "Feb.",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul.",
-    "Ago",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dic.",
-  ],
-  dayNames: [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-  ],
-  dayNamesShort: ["Dom.", "Lun.", "Mar.", "Mie.", "Jue.", "Vie.", "Sab."],
-  today: "Hoy",
-};
-LocaleConfig.defaultLocale = "es";
-
 const Calendario = ({ navigation, data }) => {
   const [showModal, setShowModal] = useState(false);
   const [formDate, setFormDate] = useState("");
