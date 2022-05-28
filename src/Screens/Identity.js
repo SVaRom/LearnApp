@@ -12,6 +12,7 @@ import {
 } from "native-base";
 import { auth } from "../../database/firebase";
 const UpdateScreen = ({ navigation }) => {
+  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
   const [data, setData] = useState({
     email: "",
   });
@@ -25,18 +26,14 @@ const UpdateScreen = ({ navigation }) => {
     auth
       .sendPasswordResetEmail(data.email)
       .then(() => {
-        alert(
-          "Porfavor revisa tu correo electrónico... (También revisa en SPAM)"
-        );
+        alert("Please check your email... (Also check in SPAM folder)");
         navigation.reset({
           index: 0,
           routes: [{ name: "Login" }],
         });
       })
       .catch(function (e) {
-        alert(
-          "Algo salio mal, verifique que este utilizando en correo registrado"
-        );
+        alert("Something went wrong, please try again later.");
       });
   };
   return (
@@ -64,7 +61,7 @@ const UpdateScreen = ({ navigation }) => {
               color: "warmGray.50",
             }}
           >
-            Restablecer contraseña
+            Restore password
           </Heading>
           <Heading
             mt="5"
@@ -76,19 +73,33 @@ const UpdateScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Introduce tu correo electrónico para continuar.
+            Type your email to continue.
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Correo electrónico</FormControl.Label>
+              <FormControl.Label>
+                Email {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("email", txt)}
                 variant="underlined"
               />
             </FormControl>
             <Button mt="2" colorScheme="gray" onPress={changePwd}>
-              Cambiar contraseña
+              Restore password
             </Button>
           </VStack>
         </Box>

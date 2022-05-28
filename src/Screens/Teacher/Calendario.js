@@ -1,54 +1,59 @@
-import React, { useState } from "react";
-import { NativeBaseProvider, View, Modal } from "native-base";
+import React, { useState, useEffect } from "react";
+import {
+  NativeBaseProvider,
+  View,
+  Modal,
+  FormControl,
+  Button,
+  ScrollView,
+} from "native-base";
+import { ListItem, Avatar } from "@rneui/themed";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Icon from "react-native-vector-icons/AntDesign";
+import firebase from "../../../database/firebase";
 
-LocaleConfig.locales["es"] = {
-  monthNames: [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Juilio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ],
-  monthNamesShort: [
-    "Ene.",
-    "Feb.",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul.",
-    "Ago",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dic.",
-  ],
-  dayNames: [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-  ],
-  dayNamesShort: ["Dom.", "Lun.", "Mar.", "Mie.", "Jue.", "Vie.", "Sab."],
-  today: "Hoy",
-};
-LocaleConfig.defaultLocale = "es";
-
-const Calendario = ({ navigation, data }) => {
+const CalendarS = ({ navigation, data }) => {
   const [showModal, setShowModal] = useState(false);
   const [formDate, setFormDate] = useState("");
+  const [datesC, setDatesC] = useState({});
+
+  const nTeacher = data.number;
+
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  function addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  useEffect(() => {
+    let abortController = new AbortController();
+    firebase.db
+      .collection("asesorias")
+      .where("numTeacher", "==", nTeacher)
+      .onSnapshot((querySnapshot) => {
+        const datesC = {};
+        querySnapshot.docs.forEach((doc) => {
+          const { color, date } = doc.data();
+          const id = doc.id;
+          datesC[date] = {
+            marked: true,
+            selectedColor: getRandomColor(),
+            selected: true,
+          };
+        });
+        setDatesC(datesC);
+      });
+    abortController.abort();
+  }, []);
 
   return (
     <NativeBaseProvider>
@@ -61,39 +66,22 @@ const Calendario = ({ navigation, data }) => {
               <Icon name="right" size={26} />
             )
           }
-          markedDates={{
-            "2022-04-16": {
-              selected: true,
-              marked: true,
-              selectedColor: "blue",
-            },
-            "2022-04-17": { marked: true },
-            "2022-04-18": {
-              marked: true,
-              dots: [{ color: "red" }],
-              activeOpacity: 0,
-            },
-            "2022-04-19": { disabled: true, disableTouchEvent: true },
-          }}
+          markedDates={datesC}
           onDayPress={(day) => {
-            let fDate = day.day + "/" + day.month + "/" + day.year;
+            let fDate =
+              addZero(day.month) + "/" + addZero(day.day) + "/" + day.year;
             setFormDate(fDate);
-            console.log(formDate);
             setShowModal(true);
+            navigation.navigate("DayDetails", {
+              selectDay: day.dateString,
+              number: data.number,
+            });
           }}
-          markingType={"period"}
+          markingType={"multi-dot"}
           monthFormat={"MMMM yyyy"}
         />
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-          <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
-            <Modal.Header>{formDate}</Modal.Header>
-            <Modal.Body></Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal.Content>
-        </Modal>
       </View>
     </NativeBaseProvider>
   );
 };
-export default Calendario;
+export default CalendarS;

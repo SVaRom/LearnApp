@@ -4,7 +4,7 @@ import firebase from "../../../database/firebase";
 import { ListItem, Avatar } from "@rneui/themed";
 import { Button, FAB } from "@rneui/base";
 
-const Home = ({ navigation, data }) => {
+const DayDetails = ({ navigation, route }) => {
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
     var color = "#";
@@ -13,14 +13,16 @@ const Home = ({ navigation, data }) => {
     }
     return color;
   }
-  const nTeacher = data.number;
+
+  //console.log(route.params.selectDay);
 
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     let abortController = new AbortController();
     firebase.db
       .collection("asesorias")
-      .where("numTeacher", "==", nTeacher)
+      .where("numTeacher", "==", route.params.number)
+      .where("date", "==", route.params.selectDay)
       .onSnapshot((querySnapshot) => {
         const classes = [];
         querySnapshot.docs.forEach((doc) => {
@@ -51,11 +53,7 @@ const Home = ({ navigation, data }) => {
                 <Button
                   title="Edit"
                   onPress={() => {
-                    navigation.navigate("Details", {
-                      id: advisory.id,
-                      number: data.number,
-                      name: data.name,
-                    });
+                    navigation.navigate("Details", { advisoryID: advisory.id });
                   }}
                   icon={{ name: "edit", color: "white" }}
                   buttonStyle={{ minHeight: "100%" }}
@@ -94,19 +92,7 @@ const Home = ({ navigation, data }) => {
           );
         })}
       </ScrollView>
-      <FAB
-        style={{ margin: 15 }}
-        placement="right"
-        color="#03A9F4"
-        icon={{ name: "add", color: "#fff" }}
-        onPress={() =>
-          navigation.navigate("Create", {
-            number: data.number,
-            name: data.name,
-          })
-        }
-      />
     </NativeBaseProvider>
   );
 };
-export default Home;
+export default DayDetails;

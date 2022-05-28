@@ -8,11 +8,14 @@ import {
   Button,
   Center,
   Image,
+  useToast,
   ScrollView,
 } from "native-base";
 import { auth } from "../../database/firebase";
 import firebase from "../../database/firebase";
 const RegisterScreen = ({ navigation }) => {
+  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
+  const toast = useToast();
   const [data, setData] = useState({
     name: "",
     number: "",
@@ -40,8 +43,11 @@ const RegisterScreen = ({ navigation }) => {
         email: data.email.toLowerCase(),
         type: aux,
       });
+      toast.show({
+        description: "You got an account!",
+      });
     } catch (error) {
-      alert("Algo salio mal, intente de nuevo");
+      alert("Something went wrong, please try again later.");
     }
   };
   const register = () => {
@@ -52,7 +58,7 @@ const RegisterScreen = ({ navigation }) => {
       data.password === "" ||
       data.career === ""
     ) {
-      alert("Porfavor llene todos los campos");
+      alert("Please fill all fields");
     } else {
       auth
         .createUserWithEmailAndPassword(data.email, data.password)
@@ -63,7 +69,9 @@ const RegisterScreen = ({ navigation }) => {
             routes: [{ name: "Login" }],
           });
         })
-        .catch((error) => alert("Algo salio mal, intente de nuevo"));
+        .catch((error) =>
+          alert("Something went wrong, please try again later.")
+        );
     }
   };
   return (
@@ -91,7 +99,7 @@ const RegisterScreen = ({ navigation }) => {
               color: "warmGray.50",
             }}
           >
-            Registro
+            Sign up
           </Heading>
           <Heading
             mt="5"
@@ -103,40 +111,113 @@ const RegisterScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Favor de llenar los datos correspondientes con la debida información
+            Please fill in the corresponding data with the proper information.
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Nombre completo</FormControl.Label>
+              <FormControl.Label>
+                Full name {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("name", txt)}
                 variant="underlined"
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Número de control</FormControl.Label>
+              <FormControl.Label>
+                Control number
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("number", txt)}
                 variant="underlined"
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Carrera</FormControl.Label>
+              <FormControl.Label>
+                Career {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("career", txt)}
                 variant="underlined"
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Correo electrónico</FormControl.Label>
+              <FormControl.Label>
+                Email {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("email", txt)}
                 variant="underlined"
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
+              <FormControl.Label>
+                Password {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("password", txt)}
                 type="password"
@@ -144,7 +225,7 @@ const RegisterScreen = ({ navigation }) => {
               />
             </FormControl>
             <Button mt="2" colorScheme="gray" onPress={register}>
-              Registrarte
+              Sign up
             </Button>
           </VStack>
         </Box>
