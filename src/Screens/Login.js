@@ -18,6 +18,7 @@ import { Entypo } from "@expo/vector-icons";
 import { auth } from "../../database/firebase";
 import firebase from "../../database/firebase";
 const LoginScreen = ({ navigation }) => {
+  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -44,17 +45,15 @@ const LoginScreen = ({ navigation }) => {
       .then((userCredentials) => {
         const user = userCredentials.user;
       })
-      .catch((error) => alert("Algo salio mal, intente de nuevo"));
+      .catch((error) => alert("Something went wrong, please try again later."));
   };
   const handleSearch = (mail) => {
-    console.log(mail);
     firebase.db
       .collection("users")
       .where("email", "==", mail)
       .get()
       .then((querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
-          console.log(doc.data().type);
           if (doc.data().type === "Teacher")
             navigation.replace("MyTabsTeacher", { data: doc.data() });
           else navigation.replace("MyTabs", { data: doc.data() });
@@ -119,7 +118,7 @@ const LoginScreen = ({ navigation }) => {
               color: "warmGray.50",
             }}
           >
-            ¡Bienvenido!
+            Welcome!
           </Heading>
           <Heading
             mt="1"
@@ -130,19 +129,47 @@ const LoginScreen = ({ navigation }) => {
             fontWeight="medium"
             size="xs"
           >
-            Ingresa para continuar
+            Type to continue...
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Correo electrónico</FormControl.Label>
+              <FormControl.Label>
+                Email {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("email", txt)}
                 variant="underlined"
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Contraseña</FormControl.Label>
+              <FormControl.Label>
+                Password
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+                {tab}
+              </FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("password", txt)}
                 type="password"
@@ -150,7 +177,7 @@ const LoginScreen = ({ navigation }) => {
               />
             </FormControl>
             <Button mt="2" colorScheme="gray" onPress={login}>
-              Ingresar
+              Log in
             </Button>
             <HStack mt="6" justifyContent="center">
               <Link
@@ -165,7 +192,7 @@ const LoginScreen = ({ navigation }) => {
                 alignSelf="flex-end"
                 mt="1"
               >
-                ¿Olvidaste tu contraseña?
+                Forgot password?
               </Link>
             </HStack>
             <HStack mt="6" justifyContent="center">
@@ -181,7 +208,7 @@ const LoginScreen = ({ navigation }) => {
                 alignSelf="flex-end"
                 mt="1"
               >
-                ¿No tienes cuenta? ¡Registrate aquí!
+                You don't have an account? Sign up!
               </Link>
             </HStack>
           </VStack>
