@@ -12,6 +12,7 @@ import HistoryScreen from "./src/Screens/Student/History";
 import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import CreateAsesoriaScreen from "./src/Screens/Teacher/Create";
 import DetailsScreen from "./src/Screens/Teacher/Details";
+import DayDetails from "./src/Screens/Teacher/SelectedDay";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
@@ -253,6 +254,7 @@ const App = () => {
             />
             <Stack.Screen name="Create" component={CreateAsesoriaScreen} />
             <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="DayDetails" component={DayDetails} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

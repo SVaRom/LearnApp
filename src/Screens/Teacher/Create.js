@@ -62,9 +62,9 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
     let fDate =
       tempDate.getFullYear() +
       "-" +
-      (tempDate.getMonth() + 1) +
+      addZero(tempDate.getMonth() + 1) +
       "-" +
-      tempDate.getDate();
+      addZero(tempDate.getDate());
 
     let fTime =
       addZero(tempDate.getHours()) + ":" + addZero(tempDate.getMinutes());
