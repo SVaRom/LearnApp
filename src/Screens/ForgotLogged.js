@@ -9,8 +9,11 @@ import {
   Center,
   Image,
   ScrollView,
+  useToast,
 } from "native-base";
-const ChangeScreen2 = ({ navigation, route }) => {
+import { auth } from "../../database/firebase";
+const ChangeScreen2 = ({ navigation }) => {
+  const toast = useToast();
   const [data, setData] = React.useState({
     password: "",
     confirmPassword: "",
@@ -23,13 +26,10 @@ const ChangeScreen2 = ({ navigation, route }) => {
   };
   const changePwd = () => {
     if (data.password === data.confirmPassword) {
-      console.log(
-        "Update responsive " +
-          route.params.data.number +
-          " new_pwd:" +
-          data.password
-      );
-      // ! If update es exitoso
+      auth.currentUser.updatePassword(data.password);
+      toast.show({
+        description: "You change your password!",
+      });
       navigation.goBack();
     }
   };
@@ -58,7 +58,7 @@ const ChangeScreen2 = ({ navigation, route }) => {
               color: "warmGray.50",
             }}
           >
-            Cambiar contraseña
+            Change password
           </Heading>
           <Heading
             mt="5"
@@ -70,12 +70,12 @@ const ChangeScreen2 = ({ navigation, route }) => {
             fontWeight="medium"
             size="xs"
           >
-            Introduce tu nueva contraseña.
+            Type your new password.
           </Heading>
 
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Nueva contraseña</FormControl.Label>
+              <FormControl.Label>New Password</FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("password", txt)}
                 type="password"
@@ -83,7 +83,7 @@ const ChangeScreen2 = ({ navigation, route }) => {
               />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Confirmar contraseña</FormControl.Label>
+              <FormControl.Label>Confirm password</FormControl.Label>
               <Input
                 onChangeText={(txt) => handleChange("confirmPassword", txt)}
                 type="password"
@@ -91,7 +91,7 @@ const ChangeScreen2 = ({ navigation, route }) => {
               />
             </FormControl>
             <Button mt="2" colorScheme="gray" onPress={changePwd}>
-              Cambiar contraseña
+              Change password
             </Button>
           </VStack>
         </Box>
