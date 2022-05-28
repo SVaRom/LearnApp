@@ -6,7 +6,7 @@ import firebase, { auth } from "../../../database/firebase";
 
 const CreateAsesoriaScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
+  const [mode, setMode] = useState("");
   const [textT, setTextT] = useState("HH:MM");
   const [textD, setTextD] = useState("DD/MM/YYYY");
   const [show, setShow] = useState(false);
@@ -69,11 +69,13 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
     let fTime =
       addZero(tempDate.getHours()) + ":" + addZero(tempDate.getMinutes());
 
-    handleChangeText("cdate", fDate);
-    handleChangeText("ctime", fTime);
-
-    setTextD(fDate);
-    setTextT(fTime);
+    if (mode === "date") {
+      handleChangeText("cdate", fDate);
+      setTextD(fDate);
+    } else {
+      handleChangeText("ctime", fTime);
+      setTextT(fTime);
+    }
   };
 
   const showMode = (currentMode) => {

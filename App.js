@@ -46,7 +46,7 @@ function MyTabs({ navigation, route }) {
         {(props) => <HomeScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Agenda"
+        name="Calendar"
         options={{
           tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
@@ -57,7 +57,7 @@ function MyTabs({ navigation, route }) {
         {(props) => <CalendarScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Historial"
+        name="History"
         options={{
           tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
@@ -106,7 +106,7 @@ function MyTabsTeacher({ navigation, route }) {
         {(props) => <HomeTeacherScreen {...props} data={route.params.data} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Calendario"
+        name="Calendar"
         options={{
           tabBarColor: "#041C32",
           tabBarIcon: ({ color }) => (
