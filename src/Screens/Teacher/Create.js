@@ -39,10 +39,10 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
           numTeacher: state.numTeacher,
           nameTeacher: state.nameTeacher,
         });
-        alert("Asesoria agregada con exito");
+        alert("You added the class!");
         navigation.navigate("Home");
       } catch (error) {
-        console.log(error);
+        alert("Something went wrong, please try again later.");
       }
     }
   };

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import QRCode from "react-qr-code";
 import { View, Text } from "react-native";
 import {
   HStack,
@@ -19,6 +20,7 @@ import firebase from "../../../database/firebase";
 
 const Profile = ({ navigation, data, id }) => {
   const [showModal, setShowModal] = React.useState(false);
+  const [modalIsOpen1, setModalIsOpen1] = React.useState(false);
   const toast = useToast();
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
@@ -63,6 +65,7 @@ const Profile = ({ navigation, data, id }) => {
         <Text>{data.number}</Text>
         <Heading size="md">Career</Heading>
         <Text>{data.career}</Text>
+        <Button onPress={() => setModalIsOpen1(true)}>QR Attendance</Button>
       </VStack>
       <Box alignItems="center">
         <Flex direction="row" h="58" p="4">
@@ -129,6 +132,26 @@ const Profile = ({ navigation, data, id }) => {
                   Yes
                 </Button>
               </Button.Group>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
+        <Modal isOpen={modalIsOpen1} onClose={() => setModalIsOpen1(false)}>
+          <Modal.Content maxWidth="400px">
+            <Modal.CloseButton />
+            <Modal.Header>Attendance</Modal.Header>
+            <Modal.Body>
+              <Center>
+                <QRCode
+                  value={data.number}
+                  size={150}
+                  bgColor="#282c34"
+                  fgColor="#fff"
+                  level="H"
+                />
+              </Center>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onPress={() => setModalIsOpen1(false)}>Done</Button>
             </Modal.Footer>
           </Modal.Content>
         </Modal>

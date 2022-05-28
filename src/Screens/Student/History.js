@@ -1,101 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { 
-  View,
-  Text,
-  ScrollView,
-  Button,
-  Modal,
-  Alert,
-  StyleSheet, TouchableOpacity} from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import firebase from "../../../database/firebase";
 import { ListItem, Avatar } from "@rneui/themed";
 import { Box, Divider, HStack } from "native-base";
 const History = ({ navigation, data }) => {
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
-  const expandModal = (item) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-    console.log(item);
-  };
-  const closeModal = () => {
-    setSelectedItem("");
-    setModalVisible(false);
-  };
-
-const [cursos, setCursos] = useState([]);
+  const [cursos, setCursos] = useState([]);
 
   useEffect(() => {
     let abortController = new AbortController();
-    firebase.db.collection("curso-student").where("idStudent", "==", data.number).onSnapshot((querySnapshot) => {
-      console.log(data.number);
-      const cursos = [];
-      querySnapshot.docs.forEach((doc) => {
-        console.log("aki");
-        const { materia, profesor, hora, status } = doc.data();
-        console.log(doc.data());
-        const id = doc.id;
-        cursos.push({
-          id: id,
-          materia: materia,
-          profesor: profesor,
-          hora: hora,
-          status: status,
+    let today = new Date();
+    let todayH = "";
+    for (let i = 0; i < 10; i++) todayH += today.toISOString().charAt(i);
+    firebase.db
+      .collection("asesorias-student")
+      .where("numStudent", "==", data.number)
+      .onSnapshot((querySnapshot) => {
+        const cursos = [];
+        querySnapshot.docs.forEach((doc) => {
+          const { subject, nameTeacher, time, state, date } = doc.data();
+          const actualDate = new Date(todayH);
+          const dateReference = new Date(date);
+          const id = doc.id;
+          let aux, icon;
+          if (state === "true") {
+            aux = "#209f19";
+            icon = "account-check";
+          } else if (state === "false" || dateReference < actualDate) {
+            aux = "#9e1b21";
+            icon = "account-cancel";
+          } else {
+            aux = "#a1adb9";
+            icon = "account-clock";
+          }
+          cursos.push({
+            id: id,
+            subject: subject,
+            nameTeacher: nameTeacher,
+            date: date,
+            state: aux,
+            time: time,
+            icon: icon,
+          });
         });
+
+        setCursos(cursos);
       });
-      setCursos(cursos);
-    });
     abortController.abort();
   }, []);
   return (
     <View>
-    <Box bg="#FDFDFE">
-    <Text style={styles.title}> Historial de asistencias</Text>
-    </Box>
-    <Divider/>
-    <ScrollView>
-    {cursos.map((curso) => {
-        return (
-          <ListItem key={curso.id}
-           onPress={() => {
-              expandModal(curso);
-            }}
-           bottomDivider>
-            <ListItem.Chevron/>
-            <Avatar rounded />
-            <ListItem.Content>
-              <ListItem.Title>{curso.materia}</ListItem.Title>
-              <ListItem.Subtitle>{curso.hora}</ListItem.Subtitle>
-              <ListItem.Subtitle>{curso.profesor}</ListItem.Subtitle>
-            </ListItem.Content>
-            <Modal
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={closeModal}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text style={styles.textAlign}>Curso </Text> 
-                  <Text>Materia:  {selectedItem.materia}</Text>
-                  <Text>Profesor:  {selectedItem.profesor}</Text>
-                  <Text>Hora:  {selectedItem.hora}</Text>
-                  <Text>Status: {selectedItem.status}</Text>
-                  <HStack space={3} justifyContent="center" margin={5}>
-                  <Button
-                    title="Cerrar"
-                    onPress={() => {
-                      closeModal();
-                    }}
-                  />
-                  </HStack>
-                </View>
-              </View>
-            </Modal>
-          </ListItem>
-        );
-      })}
-    </ScrollView>
+      <Box bg="#FDFDFE">
+        <Text style={styles.title}> Attendance</Text>
+      </Box>
+      <Divider />
+      <ScrollView>
+        {cursos.map((curso) => {
+          return (
+            <ListItem key={curso.id} bottomDivider>
+              <ListItem.Chevron />
+              <Avatar
+                size={64}
+                rounded
+                icon={{ name: curso.icon }}
+                containerStyle={{ backgroundColor: curso.state }}
+              />
+              <ListItem.Content>
+                <ListItem.Title>{curso.subject}</ListItem.Title>
+                <ListItem.Subtitle>
+                  Date & Time: {curso.time}, {curso.date}
+                </ListItem.Subtitle>
+                <ListItem.Subtitle>
+                  Proffessor: {curso.nameTeacher}
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };
@@ -107,13 +88,13 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: 20,
-    fontSize:25,
-    backgroundColor:"#FDFDFE"
+    fontSize: 25,
+    backgroundColor: "#FDFDFE",
   },
   textAlign: {
-    textAlign: "left"
+    textAlign: "left",
   },
   modalView: {
     margin: 20,

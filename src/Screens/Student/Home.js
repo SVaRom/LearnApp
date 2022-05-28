@@ -5,14 +5,22 @@ import {
   ScrollView,
   Button,
   Modal,
-  Alert,
-  StyleSheet } from "react-native";
+  StyleSheet,
+} from "react-native";
 import firebase from "../../../database/firebase";
-import { Box, Divider, HStack, ZStack } from "native-base";
-import { ListItem, Avatar, ButtonGroup } from "@rneui/themed";
+import { Box, Divider, HStack, useToast } from "native-base";
+import { ListItem, Avatar } from "@rneui/themed";
 
-const Home= ({ navigation }) => {
-
+const Home = ({ navigation, data }) => {
+  const toast = useToast();
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
   const expandModal = (item) => {
@@ -23,87 +31,125 @@ const Home= ({ navigation }) => {
     setSelectedItem("");
     setModalVisible(false);
   };
-const [ofertas, setOfertas] = useState([]);
+  const [ofertas, setOfertas] = useState([]);
 
   useEffect(() => {
     let abortController = new AbortController();
-    firebase.db.collection("curso-teacher").onSnapshot((querySnapshot) => {
+    firebase.db.collection("asesorias").onSnapshot((querySnapshot) => {
       const ofertas = [];
       querySnapshot.docs.forEach((doc) => {
-        console.log("aki");
-
-        const { materia, profesor, hora, aula} = doc.data();
-        console.log(doc.data());
+        const { assessor, date, nameTeacher, numTeacher, time, room, subject } =
+          doc.data();
         const id = doc.id;
         ofertas.push({
           id: id,
-          materia: materia,
-          profesor: profesor,
-          hora: hora,
-          aula: aula,
+          subject: subject,
+          assessor: assessor,
+          time: time,
+          room: room,
+          date: date,
+          numTeacher: numTeacher,
+          nameTeacher: nameTeacher,
         });
       });
       setOfertas(ofertas);
     });
     abortController.abort();
   }, []);
+
+  const handleJoin = async (item) => {
+    let abortController = new AbortController();
+
+    try {
+      await firebase.db.collection("asesorias-student").add({
+        subject: item.subject,
+        assessor: item.assessor,
+        room: item.room,
+        date: item.date,
+        time: item.time,
+        numTeacher: item.numTeacher,
+        nameTeacher: item.nameTeacher,
+        numStudent: data.number,
+        nameStudent: data.name,
+        state: "",
+      });
+      toast.show({
+        description: "You've joined the class!",
+      });
+      abortController.abort();
+    } catch (error) {
+      alert("Something went wrong, please try again later.");
+    }
+  };
+
   return (
     <View>
-    <Box bg="#FDFDFE">
-    <Text style={styles.title}> Cursos Ofertados </Text>
-    </Box>
-    <Divider/>
-    <ScrollView>
-      {ofertas.map((oferta) => {
-        return (
-          <ListItem key={oferta.id}
-            onPress={() => {
-              expandModal(oferta);
-            }}
-            bottomDivider>
-            <ListItem.Chevron/>
-            <Avatar rounded />
-            <ListItem.Content>
-              <ListItem.Title>{oferta.materia}</ListItem.Title>
-              <ListItem.Subtitle>{oferta.hora}</ListItem.Subtitle>
-              <ListItem.Subtitle>{oferta.profesor}</ListItem.Subtitle>
-              <ListItem.Subtitle>{oferta.aula}</ListItem.Subtitle>
-            </ListItem.Content>
-            <Modal
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={closeModal}
+      <Box bg="#FDFDFE">
+        <Text style={styles.title}> Cursos Ofertados </Text>
+      </Box>
+      <Divider />
+      <ScrollView>
+        {ofertas.map((oferta) => {
+          return (
+            <ListItem
+              key={oferta.id}
+              onPress={() => {
+                expandModal(oferta);
+              }}
+              bottomDivider
             >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text>Oferta</Text>
-                  <Text>Fecha:  {selectedItem.date}</Text>
-                  <Text>Materia: {selectedItem.materia}</Text>
-                  <Text>Profesor:  {selectedItem.profesor}</Text>
-                  <Text>Hora:  {selectedItem.time}</Text>
-                  <Text>Aula:  {selectedItem.aula}</Text>
-                  <HStack space={3} justifyContent="center" margin={5}>
-                  <Button
-                    title="Unirse"
-                    onPress={() => {
-                      openConfirmationAlert(selectedItem.id);
-                      closeModal();
-                    }}
-                  />
-                  <Button
-                    title="Cerrar"
-                    onPress={() => {
-                      closeModal();
-                    }}
-                  />
-                  </HStack>
+              <ListItem.Chevron />
+              <Avatar
+                size={64}
+                rounded
+                title={oferta.subject.charAt(0)}
+                containerStyle={{ backgroundColor: getRandomColor() }}
+              />
+              <ListItem.Content>
+                <ListItem.Title>{oferta.subject}</ListItem.Title>
+                <ListItem.Subtitle>
+                  Date & Time: {oferta.time}, {oferta.date}
+                </ListItem.Subtitle>
+                <ListItem.Subtitle>
+                  Proffessor: {oferta.nameTeacher}
+                </ListItem.Subtitle>
+                <ListItem.Subtitle> Classroom: {oferta.room}</ListItem.Subtitle>
+              </ListItem.Content>
+              <Modal
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={closeModal}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.title}>Offer!</Text>
+                    <Text>Date: {selectedItem.date}</Text>
+                    <Text>Subject: {selectedItem.subject}</Text>
+                    <Text>Assessor: {selectedItem.assessor}</Text>
+                    <Text>Time: {selectedItem.time}</Text>
+                    <Text>Classroom: {selectedItem.room}</Text>
+                    <HStack space={3} justifyContent="center" margin={5}>
+                      <Button
+                        title="Join"
+                        onPress={() => {
+                          handleJoin(selectedItem);
+                          closeModal();
+                        }}
+                      />
+                      <Button
+                        title="Close"
+                        onPress={() => {
+                          closeModal();
+                        }}
+                      />
+                    </HStack>
+                  </View>
                 </View>
-              </View>
-            </Modal>
-          </ListItem>
-        );
-      })}
-    </ScrollView>
+              </Modal>
+            </ListItem>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };
@@ -130,10 +176,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: 20,
-    fontSize:25,
-    backgroundColor:"#FDFDFE"
+    fontSize: 25,
+    backgroundColor: "#FDFDFE",
   },
   button: {
     borderRadius: 20,

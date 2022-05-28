@@ -13,6 +13,7 @@ import HomeTeacherScreen from "./src/Screens/Teacher/Home";
 import CreateAsesoriaScreen from "./src/Screens/Teacher/Create";
 import DetailsScreen from "./src/Screens/Teacher/Details";
 import DayDetails from "./src/Screens/Teacher/SelectedDay";
+import DayDetailsS from "./src/Screens/Student/SelectedDay";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
@@ -252,9 +253,34 @@ const App = () => {
                 title: "LearnApp",
               }}
             />
-            <Stack.Screen name="Create" component={CreateAsesoriaScreen} />
-            <Stack.Screen name="Details" component={DetailsScreen} />
-            <Stack.Screen name="DayDetails" component={DayDetails} />
+            <Stack.Screen
+              name="Create"
+              component={CreateAsesoriaScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Details"
+              component={DetailsScreen}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="DayDetails"
+              component={DayDetails}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="DayDetailsS"
+              component={DayDetailsS}
+              options={{
+                title: "LearnApp",
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
