@@ -31,6 +31,7 @@ const RegisterScreen = ({ navigation }) => {
     });
   };
   const SaveNewUser = async () => {
+    let abortController = new AbortController();
     //! await porque es asincrono y debemos usar async porque es sincronizable a datos nota: podemos agregar un loader
     try {
       let aux;
@@ -46,6 +47,7 @@ const RegisterScreen = ({ navigation }) => {
       toast.show({
         description: "You got an account!",
       });
+      abortController.abort();
     } catch (error) {
       alert("Something went wrong, please try again later.");
     }

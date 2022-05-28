@@ -1,77 +1,216 @@
-import React, { useState, useEffect } from "react";
-import { NativeBaseProvider, ScrollView } from "native-base";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  Button,
+  Modal,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import firebase from "../../../database/firebase";
-import { ListItem, Avatar } from "@rneui/themed";
-import { Button, FAB } from "@rneui/base";
-import { Pressable } from "react-native";
+import { ListItem, Avatar, CheckBox } from "@rneui/themed";
+import { Box, Divider, HStack } from "native-base";
 const Attendance = ({ navigation, route }) => {
-  const [classes, setClasses] = useState([]);
-  useEffect(() => {
-    let abortController = new AbortController();
-    firebase.db
-      .collection("asesorias-student")
-      .where("numStudent", "==", route.params.data)
-      .where("numTeacher", "==", route.params.numT)
-      .onSnapshot((querySnapshot) => {
-        const classes = [];
-        querySnapshot.docs.forEach((doc) => {
-          const { subject, assessor, date, time, status, room, nameStudent } =
-            doc.data();
-          const id = doc.id;
-          classes.push({
-            id: id,
-            subject: subject,
-            assessor: assessor,
-            date: date,
-            time: time,
-            status: status,
-            room: room,
-            nameStudent: nameStudent,
-          });
-        });
-        setClasses(classes);
-      });
-    abortController.abort();
-  }, []);
-
-  const handleAttendace = (selectedItem) => {
-    if (selectedItem.status) {
-      selectedItem.status = "true";
-      selectedItem.avatarUrl =
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png";
-    } else {
-      selectedItem.status = "false";
-      selectedItem.avatarUrl =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx062PdX4FMGEDi9dpGfcYZdnzVeeLFahEsQ&usqp=CAU";
-    }
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+  const [check1, setCheck1] = useState(false);
+  const expandModal = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setSelectedItem("");
+    setModalVisible(false);
   };
 
+  const [cursos, setCursos] = useState([]);
+
+  useEffect(() => {
+    let abortController = new AbortController();
+    let today = new Date();
+    let todayH = "";
+    for (let i = 0; i < 10; i++) todayH += today.toISOString().charAt(i);
+    firebase.db
+      .collection("asesorias-student")
+      .where("numStudent", "==", route.params.numS)
+      .onSnapshot((querySnapshot) => {
+        const cursos = [];
+        querySnapshot.docs.forEach((doc) => {
+          const {
+            subject,
+            nameStudent,
+            time,
+            state,
+            date,
+            numTeacher,
+            assessor,
+          } = doc.data();
+          const actualDate = new Date(todayH);
+          const dateReference = new Date(date);
+          const id = doc.id;
+          let aux, icon, bool;
+          if (state === "true") {
+            aux = "#209f19";
+            icon = "account-check";
+            bool = true;
+          } else if (state === "false" || dateReference < actualDate) {
+            aux = "#9e1b21";
+            icon = "account-cancel";
+            bool = true;
+          } else {
+            aux = "#a1adb9";
+            icon = "account-clock";
+            bool = false;
+          }
+          if (numTeacher === route.params.numT) {
+            cursos.push({
+              id: id,
+              subject: subject,
+              nameStudent: nameStudent,
+              date: date,
+              state: aux,
+              time: time,
+              icon: icon,
+              bool: bool,
+              assessor: assessor,
+            });
+          }
+        });
+        setCursos(cursos);
+        abortController.abort();
+      });
+  }, []);
+  const handleAttendance = async (id) => {
+    let abortController = new AbortController();
+    const dbRef = firebase.db.collection("asesorias-student").doc(id);
+    await dbRef.update({
+      state: "" + !check1,
+    });
+    abortController.abort();
+  };
   return (
-    <NativeBaseProvider>
+    <View>
+      <Box bg="#FDFDFE">
+        <Text style={styles.title}> Attendance</Text>
+      </Box>
+      <Divider />
       <ScrollView>
-        {classes.map((advisory) => {
+        {cursos.map((curso) => {
           return (
             <ListItem
-              key={advisory.id}
+              disabled={curso.bool}
+              key={curso.id}
+              onPress={() => {
+                expandModal(curso);
+              }}
               bottomDivider
-              onPress={() => handleAttendace(advisory)}
             >
-              <Avatar size={64} rounded />
+              <ListItem.Chevron />
+              <Avatar
+                size={64}
+                rounded
+                icon={{ name: curso.icon }}
+                containerStyle={{ backgroundColor: curso.state }}
+              />
               <ListItem.Content>
-                <ListItem.Title>{advisory.subject}</ListItem.Title>
+                <ListItem.Title>{curso.subject}</ListItem.Title>
                 <ListItem.Subtitle>
-                  Date & Time: {advisory.time} - {advisory.date}
+                  Date & Time: {curso.time}, {curso.date}
                 </ListItem.Subtitle>
                 <ListItem.Subtitle>
-                  Classroom: {advisory.room}
+                  Assessor: {curso.assessor}
                 </ListItem.Subtitle>
               </ListItem.Content>
+              <Modal
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={closeModal}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.textAlign}>Curso </Text>
+                    <Text>Subject: {selectedItem.subject}</Text>
+                    <Text>Time: {selectedItem.time}</Text>
+                    <CheckBox
+                      center
+                      title="Assist?"
+                      checked={check1}
+                      onPress={() => {
+                        setCheck1(!check1);
+                        handleAttendance(selectedItem.id);
+                      }}
+                    />
+                    <HStack space={3} justifyContent="center" margin={5}>
+                      <Button
+                        title="Cerrar"
+                        onPress={() => {
+                          closeModal();
+                          setCheck1(!check1);
+                        }}
+                      />
+                    </HStack>
+                  </View>
+                </View>
+              </Modal>
             </ListItem>
           );
         })}
       </ScrollView>
-    </NativeBaseProvider>
+    </View>
   );
 };
-
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  title: {
+    textAlign: "center",
+    marginVertical: 20,
+    fontSize: 25,
+    backgroundColor: "#FDFDFE",
+  },
+  textAlign: {
+    textAlign: "left",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 export default Attendance;

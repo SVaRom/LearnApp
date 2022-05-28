@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { NativeBaseProvider, ScrollView } from "native-base";
+import { NativeBaseProvider, ScrollView, Heading, useToast } from "native-base";
 import firebase from "../../../database/firebase";
 import { ListItem, Avatar } from "@rneui/themed";
 import { Button, FAB } from "@rneui/base";
 
-const DayDetails = ({ navigation, route }) => {
+const DayDetailsS = ({ navigation, route }) => {
+  const toast = useToast();
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
     var color = "#";
@@ -18,8 +19,8 @@ const DayDetails = ({ navigation, route }) => {
   useEffect(() => {
     let abortController = new AbortController();
     firebase.db
-      .collection("asesorias")
-      .where("numTeacher", "==", route.params.number)
+      .collection("asesorias-student")
+      .where("numStudent", "==", route.params.number)
       .where("date", "==", route.params.selectDay)
       .onSnapshot((querySnapshot) => {
         const classes = [];
@@ -42,29 +43,23 @@ const DayDetails = ({ navigation, route }) => {
   return (
     <NativeBaseProvider>
       <ScrollView>
+        <Heading>Classes for {route.params.selectDay}</Heading>
         {classes.map((advisory) => {
           return (
             <ListItem.Swipeable
               key={advisory.id}
               bottomDivider
-              leftContent={(reset) => (
-                <Button
-                  title="Edit"
-                  onPress={() => {
-                    navigation.navigate("Details", { advisoryID: advisory.id });
-                  }}
-                  icon={{ name: "edit", color: "white" }}
-                  buttonStyle={{ minHeight: "100%" }}
-                />
-              )}
               rightContent={(reset) => (
                 <Button
-                  title="Delete"
+                  title="Cancel class"
                   onPress={() => {
                     firebase.db
-                      .collection("asesorias")
+                      .collection("asesorias-student")
                       .doc(advisory.id)
                       .delete();
+                    toast.show({
+                      description: "You're not more in the class!",
+                    });
                   }}
                   icon={{ name: "delete", color: "white" }}
                   buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
@@ -85,6 +80,9 @@ const DayDetails = ({ navigation, route }) => {
                 <ListItem.Subtitle>
                   Classroom: {advisory.room}
                 </ListItem.Subtitle>
+                <ListItem.Subtitle>
+                  Assessor: {advisory.assessor}
+                </ListItem.Subtitle>
               </ListItem.Content>
             </ListItem.Swipeable>
           );
@@ -93,4 +91,4 @@ const DayDetails = ({ navigation, route }) => {
     </NativeBaseProvider>
   );
 };
-export default DayDetails;
+export default DayDetailsS;

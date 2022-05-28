@@ -95,7 +95,6 @@ const DetailsScreen = ({ navigation, route }) => {
       time: textT,
     });
     setAdvisorH(initialState);
-    console.log(advisor);
     abortController.abort();
     navigation.goBack();
   };

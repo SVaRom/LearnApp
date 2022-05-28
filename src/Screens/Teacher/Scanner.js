@@ -9,6 +9,7 @@ import {
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 const Scanner = ({ navigation, data }) => {
+  const dataLogged = data;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(true);
   useEffect(() => {
@@ -20,8 +21,7 @@ const Scanner = ({ navigation, data }) => {
   const handleBarCodeScanned = ({ type, data }) => {
     Vibration.vibrate();
     setScanned(true);
-    navigation.push("Attendance", { data: data, numT: data.number });
-    console.log(data);
+    navigation.push("Attendance", { numS: data, numT: dataLogged.number });
   };
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;

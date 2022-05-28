@@ -20,12 +20,13 @@ import firebase from "../../database/firebase";
 const LoginScreen = ({ navigation }) => {
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
   useEffect(() => {
+    let abortController = new AbortController();
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         handleSearch(auth.currentUser.email);
       }
     });
-
+    abortController.abort();
     return unsubscribe;
   });
   const [data, setData] = useState({
