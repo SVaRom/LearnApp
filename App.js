@@ -10,6 +10,9 @@ import ProfileScreen from "./src/Screens/Student/Profile";
 import CalendarScreen from "./src/Screens/Student/Calendar";
 import HistoryScreen from "./src/Screens/Student/History";
 import HomeTeacherScreen from "./src/Screens/Teacher/Home";
+import CreateAsesoriaScreen from "./src/Screens/Teacher/Create";
+import DetailsScreen from "./src/Screens/Teacher/Details";
+import DayDetails from "./src/Screens/Teacher/SelectedDay";
 import RegisterScreen from "./src/Screens/Register";
 import CalendarTeacherScreen from "./src/Screens/Teacher/Calendario";
 import ScannerScreen from "./src/Screens/Teacher/Scanner";
@@ -73,7 +76,13 @@ function MyTabs({ navigation, route }) {
           ),
         }}
       >
-        {(props) => <ProfileScreen {...props} data={route.params.data} />}
+        {(props) => (
+          <ProfileScreen
+            {...props}
+            data={route.params.data}
+            id={route.params.id}
+          />
+        )}
       </Tab.Screen>
     </Tab.Navigator>
   );
@@ -138,7 +147,11 @@ function MyTabsTeacher({ navigation, route }) {
         }}
       >
         {(props) => (
-          <ProfileTeacherScreen {...props} data={route.params.data} />
+          <ProfileTeacherScreen
+            {...props}
+            data={route.params.data}
+            id={route.params.id}
+          />
         )}
       </Tab.Screen>
     </Tab.Navigator>
@@ -239,6 +252,9 @@ const App = () => {
                 title: "LearnApp",
               }}
             />
+            <Stack.Screen name="Create" component={CreateAsesoriaScreen} />
+            <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="DayDetails" component={DayDetails} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
