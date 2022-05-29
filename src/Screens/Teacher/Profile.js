@@ -39,7 +39,6 @@ const Profile = ({ navigation, data, id }) => {
   };
 
   const handleFullDelete = () => {
-    let abortController = new AbortController();
     firebase.db
       .collection("asesorias-student")
       .where("numTeacher", "==", data.number)
@@ -58,7 +57,6 @@ const Profile = ({ navigation, data, id }) => {
           firebase.db.collection("asesorias").doc(doc.id).delete();
         });
       });
-    abortController.abort();
   };
 
   const handleDelete = () => {

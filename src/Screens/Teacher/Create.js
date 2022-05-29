@@ -28,7 +28,6 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
 
   const SaveNewClass = async () => {
     //! await porque es asincrono y debemos usar async porque es sincronizable a datos nota: podemos agregar un loader
-    let abortController = new AbortController();
     if (
       state.subject === "" ||
       state.assessor === "" ||
@@ -52,7 +51,6 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
           description: "You added a class",
           placement: "top",
         });
-        abortController.abort();
         navigation.goBack();
       } catch (error) {
         alert("Something went wrong, please try again later.");

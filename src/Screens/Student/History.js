@@ -45,7 +45,7 @@ const History = ({ navigation, data }) => {
 
         setCursos(cursos);
       });
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
   return (
     <View>

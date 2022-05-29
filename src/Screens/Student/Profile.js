@@ -26,13 +26,11 @@ const Profile = ({ navigation, data, id }) => {
   const [password, setPassword] = React.useState("");
   const toast = useToast();
   function getRandomColor() {
-    let abortController = new AbortController();
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    abortController.abort();
 
     return color;
   }
@@ -43,8 +41,6 @@ const Profile = ({ navigation, data, id }) => {
   };
 
   const handleFullDelete = () => {
-    let abortController = new AbortController();
-
     firebase.db
       .collection("asesorias-student")
       .where("numStudent", "==", data.number)
@@ -54,7 +50,6 @@ const Profile = ({ navigation, data, id }) => {
           firebase.db.collection("asesorias-student").doc(doc.id).delete();
         });
       });
-    abortController.abort();
   };
 
   const handleDelete = () => {

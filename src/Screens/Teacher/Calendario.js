@@ -52,7 +52,7 @@ const CalendarS = ({ navigation, data }) => {
         });
         setDatesC(datesC);
       });
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
 
   return (

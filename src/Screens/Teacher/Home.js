@@ -6,13 +6,11 @@ import { Button, FAB } from "@rneui/base";
 
 const Home = ({ navigation, data }) => {
   function getRandomColor() {
-    let abortController = new AbortController();
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    abortController.abort();
     return color;
   }
   const nTeacher = data.number;
@@ -40,7 +38,7 @@ const Home = ({ navigation, data }) => {
         });
         setClasses(classes);
       });
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
 
   const handleDelete = (item) => {

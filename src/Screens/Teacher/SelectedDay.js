@@ -37,7 +37,7 @@ const DayDetails = ({ navigation, route }) => {
         });
         setClasses(classes);
       });
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
   return (
     <NativeBaseProvider>

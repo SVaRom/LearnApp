@@ -14,13 +14,11 @@ import { ListItem, Avatar } from "@rneui/themed";
 const Home = ({ navigation, data }) => {
   const toast = useToast();
   function getRandomColor() {
-    let abortController = new AbortController();
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    abortController.abort();
     return color;
   }
   const [modalVisible, setModalVisible] = useState(false);
@@ -57,11 +55,10 @@ const Home = ({ navigation, data }) => {
       });
       setOfertas(ofertas);
     });
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
 
   const handleJoin = async (item) => {
-    let abortController = new AbortController();
     try {
       await firebase.db.collection("asesorias-student").add({
         subject: item.subject,
@@ -79,7 +76,6 @@ const Home = ({ navigation, data }) => {
         description: "You've joined the class!",
         placement: "top",
       });
-      abortController.abort();
     } catch (error) {
       alert("Something went wrong, please try again later.");
     }

@@ -79,16 +79,14 @@ const Attendance = ({ navigation, route }) => {
           }
         });
         setCursos(cursos);
-        abortController.abort();
       });
+    return () => abortController.abort();
   }, []);
   const handleAttendance = async (id) => {
-    let abortController = new AbortController();
     const dbRef = firebase.db.collection("asesorias-student").doc(id);
     await dbRef.update({
       state: "" + !check1,
     });
-    abortController.abort();
   };
   return (
     <View>

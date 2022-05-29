@@ -73,7 +73,7 @@ const DetailsScreen = ({ navigation, route }) => {
   useEffect(() => {
     let abortController = new AbortController();
     getClassById(route.params.id);
-    abortController.abort();
+    return () => abortController.abort();
   }, []);
 
   const handleChangeText = (subject, value) => {
@@ -81,8 +81,6 @@ const DetailsScreen = ({ navigation, route }) => {
   };
 
   const updateClass = async () => {
-    let abortController = new AbortController();
-
     if (advisorH.subject === "") advisorH.subject = advisor.subject;
     if (advisorH.assessor === "") advisorH.assessor = advisor.assessor;
     if (advisorH.room === "") advisorH.room = advisor.room;
@@ -95,7 +93,6 @@ const DetailsScreen = ({ navigation, route }) => {
       time: textT,
     });
     setAdvisorH(initialState);
-    abortController.abort();
     navigation.goBack();
   };
 
