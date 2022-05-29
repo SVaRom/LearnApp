@@ -14,11 +14,13 @@ import { ListItem, Avatar } from "@rneui/themed";
 const Home = ({ navigation, data }) => {
   const toast = useToast();
   function getRandomColor() {
+    let abortController = new AbortController();
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
+    abortController.abort();
     return color;
   }
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,7 +61,6 @@ const Home = ({ navigation, data }) => {
 
   const handleJoin = async (item) => {
     let abortController = new AbortController();
-
     try {
       await firebase.db.collection("asesorias-student").add({
         subject: item.subject,

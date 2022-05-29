@@ -21,6 +21,7 @@ import ProfileTeacherScreen from "./src/Screens/Teacher/Profile";
 import UpdateScreen from "./src/Screens/Identity";
 import ChangeScreen2 from "./src/Screens/ForgotLogged";
 import Attendance from "./src/Screens/Teacher/Attendance";
+import Rating from "./src/Screens/Rating";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -277,6 +278,13 @@ const App = () => {
             <Stack.Screen
               name="DayDetailsS"
               component={DayDetailsS}
+              options={{
+                title: "LearnApp",
+              }}
+            />
+            <Stack.Screen
+              name="Rating"
+              component={Rating}
               options={{
                 title: "LearnApp",
               }}

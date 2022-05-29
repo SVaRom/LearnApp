@@ -42,7 +42,7 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
         });
         alert("You added a class!");
         abortController.abort();
-        navigation.navigate("Home");
+        navigation.goBack();
       } catch (error) {
         alert("Something went wrong, please try again later.");
       }

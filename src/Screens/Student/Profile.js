@@ -113,6 +113,22 @@ const Profile = ({ navigation, data, id }) => {
           >
             Change password
           </Link>
+          <Divider bg="#E0E0E0" thickness="2" mx="2" orientation="vertical" />
+
+          <Link
+            onPress={() => {
+              navigation.push("Rating", { data: data });
+            }}
+            _text={{
+              fontSize: "xs",
+              fontWeight: "500",
+              color: "#8d7e00",
+            }}
+            alignSelf="flex-end"
+            mt="1"
+          >
+            Rate the app
+          </Link>
         </Flex>
 
         <Modal
