@@ -18,6 +18,7 @@ const DayDetailsS = ({ navigation, route }) => {
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     let abortController = new AbortController();
+    let isMounted = true;
     firebase.db
       .collection("asesorias-student")
       .where("numStudent", "==", route.params.number)
@@ -36,9 +37,12 @@ const DayDetailsS = ({ navigation, route }) => {
             room: room,
           });
         });
-        setClasses(classes);
+        if (isMounted) setClasses(classes);
       });
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
   }, []);
   return (
     <NativeBaseProvider>
