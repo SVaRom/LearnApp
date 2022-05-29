@@ -45,9 +45,7 @@ const LoginScreen = ({ navigation }) => {
   const login = () => {
     auth
       .signInWithEmailAndPassword(data.email, data.password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-      })
+      .then()
       .catch((error) => alert("Something went wrong, please try again later."));
   };
   const handleSearch = (mail) => {

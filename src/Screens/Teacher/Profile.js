@@ -61,7 +61,6 @@ const Profile = ({ navigation, data, id }) => {
 
   const handleDelete = () => {
     console.log(id);
-    auth.signOut();
     firebase.db.collection("users").doc(id).delete();
     handleFullDelete();
     auth.signInWithEmailAndPassword(data.email, password);

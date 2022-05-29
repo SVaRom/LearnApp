@@ -29,6 +29,7 @@ const Attendance = ({ navigation, route }) => {
 
   useEffect(() => {
     let abortController = new AbortController();
+    let isMounted = true;
     let today = new Date();
     firebase.db
       .collection("asesorias-student")
@@ -77,9 +78,12 @@ const Attendance = ({ navigation, route }) => {
             });
           }
         });
-        setCursos(cursos);
+        if (isMounted) setCursos(cursos);
       });
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
   }, []);
   const handleAttendance = async (id) => {
     const dbRef = firebase.db.collection("asesorias-student").doc(id);

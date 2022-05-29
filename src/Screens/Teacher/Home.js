@@ -37,7 +37,7 @@ const Home = ({ navigation, data }) => {
             room: room,
           });
         });
-        setClasses(classes);
+        if (isMounted) setClasses(classes);
       });
     return () => {
       abortController.abort();

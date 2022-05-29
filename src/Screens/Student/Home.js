@@ -54,7 +54,7 @@ const Home = ({ navigation, data }) => {
           nameTeacher: nameTeacher,
         });
       });
-      setOfertas(ofertas);
+      if (isMounted) setOfertas(ofertas);
     });
     return () => {
       abortController.abort();
