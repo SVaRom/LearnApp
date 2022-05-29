@@ -53,16 +53,27 @@ const Profile = ({ navigation, data, id }) => {
   };
 
   const handleDelete = () => {
-    console.log(id);
-    firebase.db.collection("users").doc(id).delete();
-    handleFullDelete();
-    auth.signInWithEmailAndPassword(data.email, password);
-    auth.currentUser.delete();
-    toast.show({
-      description: "Account deleted successfully",
-      placement: "top",
-    });
-    navigation.replace("Login");
+    try {
+      console.log(id);
+      firebase.db.collection("users").doc(id).delete();
+      handleFullDelete();
+      auth.currentUser.delete();
+    } catch (error) {
+      auth.signOut();
+      auth.signInWithEmailAndPassword(data.email, password);
+      firebase.db.collection("users").doc(id).delete();
+      handleFullDelete();
+      auth.currentUser.delete();
+    } finally {
+      toast.show({
+        description: "Account deleted successfully",
+        placement: "top",
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    }
   };
 
   return (
