@@ -34,8 +34,32 @@ const Profile = ({ navigation, data, id }) => {
     return initials.toUpperCase();
   };
 
+  const handleFullDelete = () => {
+    let abortController = new AbortController();
+    firebase.db
+      .collection("asesorias-student")
+      .where("numTeacher", "==", data.number)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          firebase.db.collection("asesorias-student").doc(doc.id).delete();
+        });
+      });
+    firebase.db
+      .collection("asesorias")
+      .where("numTeacher", "==", data.number)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          firebase.db.collection("asesorias").doc(doc.id).delete();
+        });
+      });
+    abortController.abort();
+  };
+
   const handleDelete = () => {
     firebase.db.collection("users").doc(id).delete();
+    handleFullDelete();
     auth.signOut();
     auth.currentUser.delete();
     navigation.replace("Login");

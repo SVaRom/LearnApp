@@ -36,8 +36,23 @@ const Profile = ({ navigation, data, id }) => {
     return initials.toUpperCase();
   };
 
+  const handleFullDelete = () => {
+    let abortController = new AbortController();
+    firebase.db
+      .collection("asesorias-student")
+      .where("numStudent", "==", data.number)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          firebase.db.collection("asesorias-student").doc(doc.id).delete();
+        });
+      });
+    abortController.abort();
+  };
+
   const handleDelete = () => {
     firebase.db.collection("users").doc(id).delete();
+    handleFullDelete();
     auth.signOut();
     auth.currentUser.delete();
     navigation.replace("Login");

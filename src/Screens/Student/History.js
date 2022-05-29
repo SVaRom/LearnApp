@@ -25,7 +25,7 @@ const History = ({ navigation, data }) => {
           if (state === "true") {
             aux = "#209f19";
             icon = "account-check";
-          } else if (state === "false" || dateReference < actualDate) {
+          } else if (state === "false" || dateReference < actualDate + 1) {
             aux = "#9e1b21";
             icon = "account-cancel";
           } else {

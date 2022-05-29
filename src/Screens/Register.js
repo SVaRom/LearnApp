@@ -44,10 +44,10 @@ const RegisterScreen = ({ navigation }) => {
         email: data.email.toLowerCase(),
         type: aux,
       });
+      abortController.abort();
       toast.show({
         description: "You got an account!",
       });
-      abortController.abort();
     } catch (error) {
       alert("Something went wrong, please try again later.");
     }

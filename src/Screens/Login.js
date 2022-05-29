@@ -49,6 +49,7 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => alert("Something went wrong, please try again later."));
   };
   const handleSearch = (mail) => {
+    let abortController = new AbortController();
     firebase.db
       .collection("users")
       .where("email", "==", mail)
@@ -63,6 +64,7 @@ const LoginScreen = ({ navigation }) => {
           else navigation.replace("MyTabs", { data: doc.data(), id: doc.id });
         });
       });
+    abortController.abort();
   };
   return (
     <View flex={1}>
