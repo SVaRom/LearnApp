@@ -157,6 +157,7 @@ const RegisterScreen = ({ navigation }) => {
               <Input
                 onChangeText={(txt) => handleChange("number", txt)}
                 variant="underlined"
+                maxLength={8}
               />
             </FormControl>
             <FormControl>
