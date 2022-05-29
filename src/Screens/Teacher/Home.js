@@ -18,6 +18,7 @@ const Home = ({ navigation, data }) => {
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     let abortController = new AbortController();
+    let isMounted = true;
     setClasses([]);
     firebase.db
       .collection("asesorias")
@@ -38,7 +39,10 @@ const Home = ({ navigation, data }) => {
         });
         setClasses(classes);
       });
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
   }, []);
 
   const handleDelete = (item) => {

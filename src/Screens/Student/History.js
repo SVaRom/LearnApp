@@ -9,8 +9,6 @@ const History = ({ navigation, data }) => {
   useEffect(() => {
     let abortController = new AbortController();
     let today = new Date();
-    let todayH = "";
-    for (let i = 0; i < 10; i++) todayH += today.toISOString().charAt(i);
     firebase.db
       .collection("asesorias-student")
       .where("numStudent", "==", data.number)
@@ -18,14 +16,15 @@ const History = ({ navigation, data }) => {
         const cursos = [];
         querySnapshot.docs.forEach((doc) => {
           const { subject, nameTeacher, time, state, date } = doc.data();
-          const actualDate = new Date(todayH);
+          const actualDate = new Date(today);
+          actualDate.setDate(actualDate.getDate() + 1);
           const dateReference = new Date(date);
           const id = doc.id;
           let aux, icon;
           if (state === "true") {
             aux = "#209f19";
             icon = "account-check";
-          } else if (state === "false" || dateReference < actualDate + 1) {
+          } else if (state === "false" || dateReference < actualDate) {
             aux = "#9e1b21";
             icon = "account-cancel";
           } else {

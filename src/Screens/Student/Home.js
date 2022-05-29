@@ -35,6 +35,7 @@ const Home = ({ navigation, data }) => {
 
   useEffect(() => {
     let abortController = new AbortController();
+    let isMounted = true;
     setOfertas([]);
     firebase.db.collection("asesorias").onSnapshot((querySnapshot) => {
       const ofertas = [];
@@ -55,7 +56,10 @@ const Home = ({ navigation, data }) => {
       });
       setOfertas(ofertas);
     });
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
   }, []);
 
   const handleJoin = async (item) => {

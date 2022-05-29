@@ -30,8 +30,6 @@ const Attendance = ({ navigation, route }) => {
   useEffect(() => {
     let abortController = new AbortController();
     let today = new Date();
-    let todayH = "";
-    for (let i = 0; i < 10; i++) todayH += today.toISOString().charAt(i);
     firebase.db
       .collection("asesorias-student")
       .where("numStudent", "==", route.params.numS)
@@ -47,7 +45,8 @@ const Attendance = ({ navigation, route }) => {
             numTeacher,
             assessor,
           } = doc.data();
-          const actualDate = new Date(todayH);
+          const actualDate = new Date(today);
+          actualDate.setDate(actualDate.getDate() + 1);
           const dateReference = new Date(date);
           const id = doc.id;
           let aux, icon, bool;
