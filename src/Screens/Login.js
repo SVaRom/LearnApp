@@ -21,12 +21,15 @@ const LoginScreen = ({ navigation }) => {
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
   useEffect(() => {
     let abortController = new AbortController();
-    auth.onAuthStateChanged((user) => {
+    let unsuscriber = auth.onAuthStateChanged((user) => {
       if (user) {
         handleSearch(auth.currentUser.email);
+      } else {
+        unsuscriber = undefined;
       }
     });
     abortController.abort();
+    return unsuscriber;
   });
   const [data, setData] = useState({
     email: "",

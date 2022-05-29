@@ -37,6 +37,7 @@ const Home = ({ navigation, data }) => {
 
   useEffect(() => {
     let abortController = new AbortController();
+    setOfertas([]);
     firebase.db.collection("asesorias").onSnapshot((querySnapshot) => {
       const ofertas = [];
       querySnapshot.docs.forEach((doc) => {

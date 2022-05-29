@@ -32,7 +32,7 @@ const ChangeScreen2 = ({ navigation }) => {
     if (data.password === data.confirmPassword) {
       auth.currentUser.updatePassword(data.password);
       toast.show({
-        description: "You changed your password!",
+        description: "Please log out to save all changes",
         placement: "top",
       });
       navigation.goBack();
@@ -64,18 +64,6 @@ const ChangeScreen2 = ({ navigation }) => {
             }}
           >
             Change password
-          </Heading>
-          <Heading
-            mt="5"
-            space={3}
-            _dark={{
-              color: "warmGray.200",
-            }}
-            color="coolGray.600"
-            fontWeight="medium"
-            size="xs"
-          >
-            Type your new password.
           </Heading>
 
           <VStack space={3} mt="5">

@@ -64,7 +64,6 @@ const Profile = ({ navigation, data, id }) => {
     handleFullDelete();
     auth.signInWithEmailAndPassword(data.email, password);
     auth.currentUser.delete();
-    auth.signOut();
     toast.show({
       description: "Account deleted successfully",
       placement: "top",

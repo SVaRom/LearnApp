@@ -13,6 +13,8 @@ import {
   Link,
   Modal,
   Button,
+  FormControl,
+  Input,
 } from "native-base";
 import { auth } from "../../../database/firebase";
 import firebase from "../../../database/firebase";
@@ -66,7 +68,6 @@ const Profile = ({ navigation, data, id }) => {
     handleFullDelete();
     auth.signInWithEmailAndPassword(data.email, password);
     auth.currentUser.delete();
-    auth.signOut();
     toast.show({
       description: "Account deleted successfully",
       placement: "top",

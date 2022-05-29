@@ -20,6 +20,7 @@ const Home = ({ navigation, data }) => {
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     let abortController = new AbortController();
+    setClasses([]);
     firebase.db
       .collection("asesorias")
       .where("numTeacher", "==", nTeacher)
@@ -41,6 +42,20 @@ const Home = ({ navigation, data }) => {
       });
     abortController.abort();
   }, []);
+
+  const handleDelete = (item) => {
+    firebase.db.collection("asesorias").doc(item.id).delete();
+    firebase.db
+      .collection("asesorias-student")
+      .where("numTeacher", "==", data.number)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          firebase.db.collection("asesorias-student").doc(doc.id).delete();
+        });
+      });
+  };
+
   return (
     <NativeBaseProvider>
       <ScrollView>
@@ -67,10 +82,7 @@ const Home = ({ navigation, data }) => {
                 <Button
                   title="Delete"
                   onPress={() => {
-                    firebase.db
-                      .collection("asesorias")
-                      .doc(advisory.id)
-                      .delete();
+                    handleDelete(advisory);
                   }}
                   icon={{ name: "delete", color: "white" }}
                   buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
