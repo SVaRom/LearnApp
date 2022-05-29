@@ -26,11 +26,14 @@ const Profile = ({ navigation, data, id }) => {
   const [password, setPassword] = React.useState("");
   const toast = useToast();
   function getRandomColor() {
+    let abortController = new AbortController();
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
+    abortController.abort();
+
     return color;
   }
   const getInitials = (name) => {
@@ -62,7 +65,10 @@ const Profile = ({ navigation, data, id }) => {
     auth.signInWithEmailAndPassword(data.email, password);
     auth.currentUser.delete();
     auth.signOut();
-    toast.show({ description: "Account deleted successfully" });
+    toast.show({
+      description: "Account deleted successfully",
+      placement: "top",
+    });
     navigation.replace("Login");
   };
 

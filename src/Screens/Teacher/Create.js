@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, Button, Pressable } from "react-native";
+import { useToast } from "native-base";
 import { Input } from "@rneui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import firebase, { auth } from "../../../database/firebase";
@@ -10,6 +11,7 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
   const [textT, setTextT] = useState("HH:MM");
   const [textD, setTextD] = useState("DD/MM/YYYY");
   const [show, setShow] = useState(false);
+  const toast = useToast();
 
   const [state, setState] = useState({
     subject: "",
@@ -27,8 +29,14 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
   const SaveNewClass = async () => {
     //! await porque es asincrono y debemos usar async porque es sincronizable a datos nota: podemos agregar un loader
     let abortController = new AbortController();
-    if (state.subject === "") {
-      alert("give me a subject");
+    if (
+      state.subject === "" ||
+      state.assessor === "" ||
+      state.room === "" ||
+      state.date === "" ||
+      state.time === ""
+    ) {
+      alert("Please fill all fields");
     } else {
       try {
         await firebase.db.collection("asesorias").add({
@@ -40,7 +48,10 @@ const CreateAsesoriaScreen = ({ navigation, route }) => {
           numTeacher: state.numTeacher,
           nameTeacher: state.nameTeacher,
         });
-        alert("You added a class!");
+        toast.show({
+          description: "You added a class",
+          placement: "top",
+        });
         abortController.abort();
         navigation.goBack();
       } catch (error) {

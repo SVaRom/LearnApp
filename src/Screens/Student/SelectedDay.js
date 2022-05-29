@@ -59,6 +59,7 @@ const DayDetailsS = ({ navigation, route }) => {
                       .delete();
                     toast.show({
                       description: "You're not more in the class!",
+                      placement: "top",
                     });
                   }}
                   icon={{ name: "delete", color: "white" }}

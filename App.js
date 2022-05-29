@@ -167,7 +167,7 @@ const LogoutMenu = () => {
       .then(() => {
         navigation.replace("Login");
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert("Something went wrong, please try again later."));
   };
   return (
     <Box>

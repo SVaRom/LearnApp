@@ -76,6 +76,7 @@ const Home = ({ navigation, data }) => {
       });
       toast.show({
         description: "You've joined the class!",
+        placement: "top",
       });
       abortController.abort();
     } catch (error) {

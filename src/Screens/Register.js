@@ -47,6 +47,7 @@ const RegisterScreen = ({ navigation }) => {
       abortController.abort();
       toast.show({
         description: "You got an account!",
+        placement: "top",
       });
     } catch (error) {
       alert("Something went wrong, please try again later.");

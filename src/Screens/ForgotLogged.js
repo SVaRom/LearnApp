@@ -33,6 +33,7 @@ const ChangeScreen2 = ({ navigation }) => {
       auth.currentUser.updatePassword(data.password);
       toast.show({
         description: "You changed your password!",
+        placement: "top",
       });
       navigation.goBack();
     }

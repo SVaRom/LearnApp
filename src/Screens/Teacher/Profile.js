@@ -67,7 +67,10 @@ const Profile = ({ navigation, data, id }) => {
     auth.signInWithEmailAndPassword(data.email, password);
     auth.currentUser.delete();
     auth.signOut();
-    toast.show({ description: "Account deleted successfully" });
+    toast.show({
+      description: "Account deleted successfully",
+      placement: "top",
+    });
     navigation.replace("Login");
   };
 

@@ -25,6 +25,7 @@ const Rating = ({ navigation, route }) => {
       });
       toast.show({
         description: "Thanks for rated us!",
+        placement: "top",
       });
       abortController.abort();
       navigation.goBack();
