@@ -15,6 +15,7 @@ import { auth } from "../../database/firebase";
 const ChangeScreen2 = ({ navigation }) => {
   const toast = useToast();
   const [data, setData] = React.useState({
+    oldPassword: "",
     password: "",
     confirmPassword: "",
   });
@@ -25,10 +26,13 @@ const ChangeScreen2 = ({ navigation }) => {
     });
   };
   const changePwd = () => {
+    let mail = auth.currentUser.email;
+    auth.signOut();
+    auth.signInWithEmailAndPassword(mail, data.oldPassword);
     if (data.password === data.confirmPassword) {
       auth.currentUser.updatePassword(data.password);
       toast.show({
-        description: "You change your password!",
+        description: "You changed your password!",
       });
       navigation.goBack();
     }
@@ -74,6 +78,14 @@ const ChangeScreen2 = ({ navigation }) => {
           </Heading>
 
           <VStack space={3} mt="5">
+            <FormControl>
+              <FormControl.Label>Type your current password</FormControl.Label>
+              <Input
+                onChangeText={(txt) => handleChange("oldPassword", txt)}
+                type="password"
+                variant="underlined"
+              />
+            </FormControl>
             <FormControl>
               <FormControl.Label>New Password</FormControl.Label>
               <Input

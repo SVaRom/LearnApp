@@ -20,6 +20,8 @@ import firebase from "../../../database/firebase";
 const Profile = ({ navigation, data, id }) => {
   const [showModal, setShowModal] = React.useState(false);
   const toast = useToast();
+  const [password, setPassword] = React.useState("");
+
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
     var color = "#";
@@ -58,10 +60,14 @@ const Profile = ({ navigation, data, id }) => {
   };
 
   const handleDelete = () => {
+    console.log(id);
+    auth.signOut();
     firebase.db.collection("users").doc(id).delete();
     handleFullDelete();
-    auth.signOut();
+    auth.signInWithEmailAndPassword(data.email, password);
     auth.currentUser.delete();
+    auth.signOut();
+    toast.show({ description: "Account deleted successfully" });
     navigation.replace("Login");
   };
 
@@ -148,6 +154,16 @@ const Profile = ({ navigation, data, id }) => {
             <Modal.Header>
               Are you sure you want to delete your account?
             </Modal.Header>
+            <Modal.Body>
+              <FormControl.Label>
+                Type your current password to confirm
+              </FormControl.Label>
+              <Input
+                onChangeText={(txt) => setPassword(txt)}
+                type="password"
+                variant="underlined"
+              />
+            </Modal.Body>
             <Modal.Footer>
               <Button.Group space={2}>
                 <Button
@@ -163,7 +179,6 @@ const Profile = ({ navigation, data, id }) => {
                   onPress={() => {
                     setShowModal(false);
                     handleDelete();
-                    toast.show({ description: "Account deleted successfully" });
                   }}
                 >
                   Yes
