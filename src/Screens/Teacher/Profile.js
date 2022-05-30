@@ -72,6 +72,7 @@ const Profile = ({ navigation, data, id }) => {
       handleFullDelete();
       auth.currentUser.delete();
     } finally {
+      auth.signOut();
       toast.show({
         description: "Account deleted successfully",
         placement: "top",
