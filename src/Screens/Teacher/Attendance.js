@@ -5,9 +5,7 @@ import {
   ScrollView,
   Button,
   Modal,
-  Alert,
   StyleSheet,
-  TouchableOpacity,
 } from "react-native";
 import firebase from "../../../database/firebase";
 import { ListItem, Avatar, CheckBox } from "@rneui/themed";
