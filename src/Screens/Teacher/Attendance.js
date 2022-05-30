@@ -45,7 +45,7 @@ const Attendance = ({ navigation, route }) => {
             assessor,
           } = doc.data();
           const actualDate = new Date(today);
-          actualDate.setDate(actualDate.getDate() + 1);
+          actualDate.setDate(actualDate.getDate() - 1);
           const dateReference = new Date(date);
           const id = doc.id;
           let aux, icon, bool;
