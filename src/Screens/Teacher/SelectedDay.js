@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { NativeBaseProvider, ScrollView, Heading } from "native-base";
 import firebase from "../../../database/firebase";
 import { ListItem, Avatar } from "@rneui/themed";
-import { Button, FAB } from "@rneui/base";
 
 const DayDetails = ({ navigation, route }) => {
   function getRandomColor() {
@@ -45,33 +44,7 @@ const DayDetails = ({ navigation, route }) => {
         <Heading>Classes for {route.params.selectDay}</Heading>
         {classes.map((advisory) => {
           return (
-            <ListItem.Swipeable
-              key={advisory.id}
-              bottomDivider
-              leftContent={(reset) => (
-                <Button
-                  title="Edit"
-                  onPress={() => {
-                    navigation.navigate("Details", { advisoryID: advisory.id });
-                  }}
-                  icon={{ name: "edit", color: "white" }}
-                  buttonStyle={{ minHeight: "100%" }}
-                />
-              )}
-              rightContent={(reset) => (
-                <Button
-                  title="Delete"
-                  onPress={() => {
-                    firebase.db
-                      .collection("asesorias")
-                      .doc(advisory.id)
-                      .delete();
-                  }}
-                  icon={{ name: "delete", color: "white" }}
-                  buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
-                />
-              )}
-            >
+            <ListItem key={advisory.id} bottomDivider>
               <Avatar
                 size={64}
                 rounded
@@ -87,7 +60,7 @@ const DayDetails = ({ navigation, route }) => {
                   Classroom: {advisory.room}
                 </ListItem.Subtitle>
               </ListItem.Content>
-            </ListItem.Swipeable>
+            </ListItem>
           );
         })}
       </ScrollView>
