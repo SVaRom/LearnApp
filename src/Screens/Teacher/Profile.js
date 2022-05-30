@@ -60,15 +60,16 @@ const Profile = ({ navigation, data, id }) => {
   };
 
   const handleDelete = () => {
+    const idX = id;
     try {
       console.log(id);
-      firebase.db.collection("users").doc(id).delete();
+      firebase.db.collection("users").doc(idX).delete();
       handleFullDelete();
       auth.currentUser.delete();
     } catch (error) {
       auth.signOut();
       auth.signInWithEmailAndPassword(data.email, password);
-      firebase.db.collection("users").doc(id).delete();
+      firebase.db.collection("users").doc(idX).delete();
       handleFullDelete();
       auth.currentUser.delete();
     } finally {
