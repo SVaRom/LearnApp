@@ -42,6 +42,7 @@ const DayDetails = ({ navigation, route }) => {
   return (
     <NativeBaseProvider>
       <ScrollView>
+        <Heading>Classes for {route.params.selectDay}</Heading>
         {classes.map((advisory) => {
           return (
             <ListItem.Swipeable

@@ -8,7 +8,13 @@ import {
   StyleSheet,
 } from "react-native";
 import firebase from "../../../database/firebase";
-import { Box, Divider, HStack, useToast } from "native-base";
+import {
+  Box,
+  Divider,
+  HStack,
+  useToast,
+  NativeBaseProvider,
+} from "native-base";
 import { ListItem, Avatar } from "@rneui/themed";
 
 const Home = ({ navigation, data }) => {
@@ -86,12 +92,12 @@ const Home = ({ navigation, data }) => {
   };
 
   return (
-    <View>
-      <Box bg="#FDFDFE">
-        <Text style={styles.title}>Classes offered</Text>
-      </Box>
-      <Divider />
+    <NativeBaseProvider>
       <ScrollView>
+        <Box bg="#FDFDFE">
+          <Text style={styles.title}>Classes offered</Text>
+        </Box>
+        <Divider />
         {ofertas.map((oferta) => {
           return (
             <ListItem
@@ -153,7 +159,7 @@ const Home = ({ navigation, data }) => {
           );
         })}
       </ScrollView>
-    </View>
+    </NativeBaseProvider>
   );
 };
 const styles = StyleSheet.create({

@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { NativeBaseProvider, ScrollView } from "native-base";
+import {
+  NativeBaseProvider,
+  ScrollView,
+  Box,
+  Text,
+  Divider,
+} from "native-base";
+import { StyleSheet } from "react-native";
 import firebase from "../../../database/firebase";
 import { ListItem, Avatar } from "@rneui/themed";
 import { Button, FAB } from "@rneui/base";
@@ -61,6 +68,10 @@ const Home = ({ navigation, data }) => {
   return (
     <NativeBaseProvider>
       <ScrollView>
+        <Box bg="#FDFDFE">
+          <Text style={styles.title}>Classes offered</Text>
+        </Box>
+        <Divider />
         {classes.map((advisory) => {
           return (
             <ListItem.Swipeable
@@ -125,4 +136,53 @@ const Home = ({ navigation, data }) => {
     </NativeBaseProvider>
   );
 };
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  title: {
+    textAlign: "center",
+    marginVertical: 20,
+    fontSize: 25,
+    backgroundColor: "#FDFDFE",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 export default Home;
