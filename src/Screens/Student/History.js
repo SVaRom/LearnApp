@@ -17,7 +17,7 @@ const History = ({ navigation, data }) => {
         querySnapshot.docs.forEach((doc) => {
           const { subject, nameTeacher, time, state, date } = doc.data();
           const actualDate = new Date(today);
-          actualDate.setDate(actualDate.getDate() + 1);
+          actualDate.setDate(actualDate.getDate() - 1);
           const dateReference = new Date(date);
           const id = doc.id;
           let aux, icon;
